@@ -1,0 +1,348 @@
+.app-container {
+  background-color: #161625;
+  width: 100vw;
+  min-height: 100vh;
+}
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.search-container {
+  width: 824px;
+  height: 72px;
+  top: 144px;
+  left: 308px;
+  gap: 0px;
+  opacity: 0px;
+  background-color: #2f2f43;
+  width: 60%;
+  height: 72px;
+  margin-top: 60px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.search-icon {
+  color: #94a3b8;
+  height: 20px;
+  width: 20px;
+  margin-left: 30px;
+  margin-right: 14px;
+}
+.search-input {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  color: #94a3b8;
+  background-color: transparent;
+  width: 90%;
+  border-width: 0px;
+  outline: none;
+}
+.search-results-unordered-list {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0%;
+  width: 60%;
+}
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 0.3px solid #64748b;
+  padding-left: 48px;
+  padding-right: 24px;
+}
+.suggestion-item:hover {
+  border: 1px solid #94a3b8;
+  background: #1f1f30;
+}
+.state-name {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+   {
+  }
+  text-align: left;
+  color: #64748b;
+}
+.redirect-icon-container {
+  background-color: #1cd4d429;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 76px;
+  height: 32px;
+  top: 236px;
+  left: 1032px;
+  padding: 4px 6px 4px 6px;
+  gap: 0px;
+  border-radius: 4px;
+  opacity: 0px;
+}
+.state-code {
+  //styleName: Text Font / S1 Subtitle;
+  font-family: HK Grotesk;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+  color: #facc15;
+}
+.redirect-icon {
+  width: 24px;
+  height: 24px;
+  gap: 0px;
+  opacity: 0px;
+}
+.cases-details-container {
+  width: 68%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 90px;
+}
+.country-wide-confirmed-cases-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.confirmed-heading {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+
+  color: #ff073a;
+}
+.country-wide-confirmed-cases-pic {
+  width: 38px;
+  height: 38px;
+  top: 376px;
+  left: 267px;
+  gap: 0px;
+  opacity: 0px;
+}
+.confirmed-cases-count {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #ff073a;
+}
+.country-wide-active-cases-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.active-heading {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  color: #007bff;
+}
+.country-wide-active-cases-pic {
+  width: 38px;
+  height: 38px;
+  top: 376px;
+  left: 561px;
+  gap: 0px;
+  opacity: 0px;
+}
+.active-cases-count {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: center;
+  color: #007bff;
+}
+.country-wide-recovered-cases-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.recovered-heading {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  color: #28a745;
+}
+.country-wide-recovered-cases-pic {
+  width: 38px;
+  height: 38px;
+  top: 376px;
+  left: 855px;
+  gap: 0px;
+  opacity: 0px;
+}
+.recovered-cases-count {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: center;
+  color: #28a745;
+}
+.country-wide-deceased-cases-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.deceased-heading {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  color: #6c757d;
+}
+.country-wide-deceased-cases-pic {
+  width: 38px;
+  height: 38px;
+  top: 376px;
+  left: 1149px;
+  gap: 0px;
+  opacity: 0px;
+}
+.deceased-cases-count {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: center;
+  color: #6c757d;
+}
+.state-wise-covid-data-table {
+  width: 78%;
+  margin-top: 100px;
+  border: 1px solid #475569;
+  border-radius: 5px;
+  padding: 0%;
+}
+.headings-unordered-list {
+  list-style-type: none;
+  margin: 0px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+.states-ut-list-item {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: left;
+  color: #f8fafc;
+}
+.ascending-sort-button {
+  background-color: transparent;
+  border-width: 0px;
+  margin-right: 8px;
+  margin-left: 6px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+.descending-sort-button {
+  background-color: transparent;
+  border-width: 0px;
+  cursor: pointer;
+}
+.confirmed-list-item {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: left;
+  color: #f8fafc;
+}
+.header-line {
+  border: 1px solid #475569;
+  margin: 0px;
+  padding: 0%;
+}
+.state-wise-cases-details-unordered-list {
+  list-style-type: none;
+  margin: 0px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+.state-name {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  color: #f1f5f9;
+  width: 203px;
+}
+.confirmed-cases {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: right;
+  color: #ff073a;
+  width: 53px;
+  margin-left: 116px;
+}
+.active-cases {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: right;
+  color: #007bff;
+  width: 43px;
+  margin-left: 137px;
+}
+.recovered-cases {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: right;
+  color: #28a745;
+  width: 43px;
+  margin-left: 137px;
+}
+.deceased-cases {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: right;
+  color: #6c757d;
+  width: 43px;
+  margin-left: 137px;
+}
+.population {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: right;
+  color: #94a3b8;
+  width: 65px;
+  margin-left: 137px;
+}
