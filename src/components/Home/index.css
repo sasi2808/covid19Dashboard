@@ -346,3 +346,10 @@
   width: 65px;
   margin-left: 137px;
 }
+.home-route-loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #161625;
+}

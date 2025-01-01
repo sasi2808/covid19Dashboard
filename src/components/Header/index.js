@@ -1,3 +1,5 @@
+import {NavLink} from 'react-router-dom'
+
 import './index.css'
 
 const Header = () => (
@@ -8,9 +10,24 @@ const Header = () => (
           COVID19<span className="india-span-element">INDIA</span>
         </h1>
       </li>
-      <li className="home-list-item">Home</li>
-      <li className="about-list-item">About</li>
+      <NavLink
+        exact
+        to="/"
+        className="home-list-item"
+        activeClassName="active-link"
+      >
+        <li>Home</li>
+      </NavLink>
+      <NavLink
+        exact
+        to="/about"
+        className="about-list-item"
+        activeClassName="active-link"
+      >
+        <li>About</li>
+      </NavLink>
     </ul>
   </nav>
 )
+
 export default Header
