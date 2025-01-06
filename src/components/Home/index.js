@@ -16,6 +16,7 @@ class Home extends Component {
     searchInput: '',
     sortOrder: 'asc',
     isLoading: true,
+    isHamburgerIconSelected: false,
   }
 
   componentDidMount() {
@@ -131,12 +132,37 @@ class Home extends Component {
     this.setState({sortOrder: order})
   }
 
+  onClickingHamburgerIcon = () => {
+    this.setState(prevState => ({
+      isHamburgerIconSelected: !prevState.isHamburgerIconSelected,
+    }))
+  }
+
+  onClickHomeHeaderButton = () => {
+    const {history} = this.props
+    history.push('/')
+
+    this.setState({isHamburgerIconSelected: false})
+  }
+
+  onClickAboutHeaderButton = () => {
+    const {history} = this.props
+    history.push('/about')
+
+    this.setState({isHamburgerIconSelected: false})
+  }
+
+  onClickWrongIcon = () => {
+    this.setState({isHamburgerIconSelected: false})
+  }
+
   render() {
     const {
       stateWiseCasesDetailsList,
       searchInput,
       sortOrder,
       isLoading,
+      isHamburgerIconSelected,
     } = this.state
 
     const filteredStates = this.getFilteredStates()
@@ -148,191 +174,243 @@ class Home extends Component {
 
     return (
       <div className="app-container">
-        <Header />
+        <Header onClickingHamburgerIcon={this.onClickingHamburgerIcon} />
+
         {isLoading ? (
           <div testid="homeRouteLoader" className="home-route-loader-container">
             <Loader type="Oval" color="#007bff" height={80} width={80} />
           </div>
         ) : (
           <div className="content-container">
-            <div className="search-container">
-              <BsSearch className="search-icon" />
-              <input
-                type="search"
-                placeholder="Enter the State"
-                className="search-input"
-                onChange={this.onChangeSearchInput}
-                value={searchInput}
-              />
-            </div>
-            {filteredStates.length > 0 && (
-              <ul
-                testid="searchResultsUnorderedList"
-                className="search-results-unordered-list"
-              >
-                {filteredStates.map(state => (
-                  <Link
-                    to={`/state/${state.stateCode}`}
-                    style={{textDecoration: 'none'}}
-                    key={state.stateCode}
-                  >
-                    <li className="suggestion-item">
-                      <p className="state-name">{state.name}</p>
-                      <div className="redirect-icon-container">
-                        <p className="state-code">{state.stateCode}</p>
-                        <img
-                          src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725909338/seqrbsyvk3fdbp87aqez.png"
-                          className="redirect-icon"
-                          alt="redirect icon"
-                        />
-                      </div>
-                    </li>
-                  </Link>
-                ))}
-              </ul>
-            )}
-            <div className="cases-details-container">
-              <div
-                testid="countryWideConfirmedCases"
-                className="country-wide-confirmed-cases-card"
-              >
-                <h1 className="confirmed-heading">Confirmed</h1>
-                <img
-                  src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725803960/c9xvg4hse2d7uirrzrg1.png"
-                  alt="country wide confirmed cases pic"
-                  className="country-wide-confirmed-cases-pic"
-                />
-                <p className="confirmed-cases-count">{this.totalCases()}</p>
-              </div>
-              <div
-                testid="countryWideActiveCases"
-                className="country-wide-active-cases-card"
-              >
-                <h1 className="active-heading">Active</h1>
-                <img
-                  src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808445/difw8wxlzelmwt5dhmko.png"
-                  alt="country wide active cases pic"
-                  className="country-wide-active-cases-pic"
-                />
-                <p className="active-cases-count">{this.totalActiveCases()}</p>
-              </div>
-              <div
-                testid="countryWideRecoveredCases"
-                className="country-wide-recovered-cases-card"
-              >
-                <h1 className="recovered-heading">Recovered</h1>
-                <img
-                  src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808928/nmzagyzvvgndlz36arjm.png"
-                  alt="country wide recovered cases pic"
-                  className="country-wide-recovered-cases-pic"
-                />
-                <p className="recovered-cases-count">
-                  {this.totalRecoveredCases()}
-                </p>
-              </div>
-              <div
-                testid="countryWideDeceasedCases"
-                className="country-wide-deceased-cases-card"
-              >
-                <h1 className="deceased-heading">Deceased</h1>
-                <img
-                  src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725809559/otktge0gfjukkhro65ip.png"
-                  alt="country wide deceased cases pic"
-                  className="country-wide-deceased-cases-pic"
-                />
-                <p className="deceased-cases-count">
-                  {this.totalDeceasedCases()}
-                </p>
-              </div>
-            </div>
-            <div
-              testid="stateWiseCovidDataTable"
-              className="state-wise-covid-data-table"
-            >
-              <ul className="headings-unordered-list">
-                <li className="states-ut-list-item">
-                  States/UT
+            {isHamburgerIconSelected ? (
+              <div className="mobile-view-header-drop-down">
+                <ul className="home-about-header-mobile-view-unordered-list">
                   <button
                     type="button"
-                    testid="ascendingSort"
-                    className="ascending-sort-button"
-                    onClick={() => this.changeSortOrder('asc')} // Toggle sort order
+                    style={{backgroundColor: 'transparent', borderWidth: '0px'}}
+                    onClick={this.onClickHomeHeaderButton}
                   >
-                    <FcGenericSortingAsc
-                      style={{
-                        color: '#94A3B8',
-                        width: '18px',
-                        height: '18px',
-                        marginBottom: '-4px',
-                      }}
-                    />
+                    <li className="home-mobile-view-list-item">Home</li>
                   </button>
                   <button
                     type="button"
-                    testid="descendingSort"
-                    className="descending-sort-button"
-                    onClick={() => this.changeSortOrder('desc')} // Toggle sort order
+                    style={{backgroundColor: 'transparent', borderWidth: '0px'}}
+                    onClick={this.onClickAboutHeaderButton}
                   >
-                    <FcGenericSortingDesc
-                      style={{
-                        color: '#94A3B8',
-                        width: '18px',
-                        height: '18px',
-                        marginBottom: '-4px',
-                      }}
-                    />
+                    <li className="about-mobile-view-list-item">About</li>
                   </button>
-                </li>
-                <li
-                  className="confirmed-list-item"
-                  style={{width: '76px', marginLeft: '50px'}}
-                >
-                  Confirmed
-                </li>
-                <li
-                  className="confirmed-list-item"
-                  style={{width: '46px', marginLeft: '24px'}}
-                >
-                  Active
-                </li>
-                <li className="confirmed-list-item" style={{width: '77px'}}>
-                  Recovered
-                </li>
-                <li className="confirmed-list-item" style={{width: '71px'}}>
-                  Deceased
-                </li>
-                <li className="confirmed-list-item" style={{width: '78px'}}>
-                  Population
-                </li>
-              </ul>
-              <hr className="header-line" />
-              {sortedStates.map(eachState => (
-                <ul
-                  className="state-wise-cases-details-unordered-list"
-                  key={eachState.stateCode}
-                >
-                  <li>
-                    <p className="state-name">{eachState.name}</p>
-                  </li>
-                  <li>
-                    <p className="confirmed-cases">{eachState.confirmed}</p>
-                  </li>
-                  <li>
-                    <p className="active-cases">{eachState.active}</p>
-                  </li>
-                  <li>
-                    <p className="recovered-cases">{eachState.recovered}</p>
-                  </li>
-                  <li>
-                    <p className="deceased-cases">{eachState.deceased}</p>
-                  </li>
-                  <li>
-                    <p className="population">{eachState.population}</p>
-                  </li>
                 </ul>
-              ))}
-            </div>
-            <Footer />
+                <button
+                  type="button"
+                  className="wrong-button"
+                  onClick={this.onClickWrongIcon}
+                >
+                  <img
+                    src="https://res.cloudinary.com/dio3xtbss/image/upload/v1736094569/wrong_icon_pfar5z.png"
+                    alt="wrong icon"
+                  />
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="search-container">
+                  <BsSearch className="search-icon" />
+                  <input
+                    type="search"
+                    placeholder="Enter the State"
+                    className="search-input"
+                    onChange={this.onChangeSearchInput}
+                    value={searchInput}
+                  />
+                </div>
+                {filteredStates.length > 0 && (
+                  <ul
+                    testid="searchResultsUnorderedList"
+                    className="search-results-unordered-list"
+                  >
+                    {filteredStates.map(state => (
+                      <Link
+                        to={`/state/${state.stateCode}`}
+                        style={{textDecoration: 'none'}}
+                        key={state.stateCode}
+                      >
+                        <li className="suggestion-item">
+                          <p className="state-name">{state.name}</p>
+                          <div className="redirect-icon-container">
+                            <p className="state-code">{state.stateCode}</p>
+                            <img
+                              src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725909338/seqrbsyvk3fdbp87aqez.png"
+                              className="redirect-icon"
+                              alt="redirect icon"
+                            />
+                          </div>
+                        </li>
+                      </Link>
+                    ))}
+                  </ul>
+                )}
+                <div className="cases-details-container">
+                  <div
+                    testid="countryWideConfirmedCases"
+                    className="country-wide-confirmed-cases-card"
+                  >
+                    <h1 className="confirmed-heading">Confirmed</h1>
+                    <img
+                      src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725803960/c9xvg4hse2d7uirrzrg1.png"
+                      alt="country wide confirmed cases pic"
+                      className="country-wide-confirmed-cases-pic"
+                    />
+                    <p className="confirmed-cases-count">{this.totalCases()}</p>
+                  </div>
+                  <div
+                    testid="countryWideActiveCases"
+                    className="country-wide-active-cases-card"
+                  >
+                    <h1 className="active-heading">Active</h1>
+                    <img
+                      src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808445/difw8wxlzelmwt5dhmko.png"
+                      alt="country wide active cases pic"
+                      className="country-wide-active-cases-pic"
+                    />
+                    <p className="active-cases-count">
+                      {this.totalActiveCases()}
+                    </p>
+                  </div>
+                  <div
+                    testid="countryWideRecoveredCases"
+                    className="country-wide-recovered-cases-card"
+                  >
+                    <h1 className="recovered-heading">Recovered</h1>
+                    <img
+                      src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808928/nmzagyzvvgndlz36arjm.png"
+                      alt="country wide recovered cases pic"
+                      className="country-wide-recovered-cases-pic"
+                    />
+                    <p className="recovered-cases-count">
+                      {this.totalRecoveredCases()}
+                    </p>
+                  </div>
+                  <div
+                    testid="countryWideDeceasedCases"
+                    className="country-wide-deceased-cases-card"
+                  >
+                    <h1 className="deceased-heading">Deceased</h1>
+                    <img
+                      src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725809559/otktge0gfjukkhro65ip.png"
+                      alt="country wide deceased cases pic"
+                      className="country-wide-deceased-cases-pic"
+                    />
+                    <p className="deceased-cases-count">
+                      {this.totalDeceasedCases()}
+                    </p>
+                  </div>
+                </div>
+                <div className="scrollable-container">
+                  <div
+                    testid="stateWiseCovidDataTable"
+                    className="state-wise-covid-data-table"
+                  >
+                    <ul className="headings-unordered-list">
+                      <li className="states-ut-list-item">
+                        States/UT
+                        <button
+                          type="button"
+                          testid="ascendingSort"
+                          className="ascending-sort-button"
+                          onClick={() => this.changeSortOrder('asc')} // Toggle sort order
+                        >
+                          <FcGenericSortingAsc
+                            style={{
+                              color: '#94A3B8',
+                              width: '18px',
+                              height: '18px',
+                              marginBottom: '-4px',
+                            }}
+                          />
+                        </button>
+                        <button
+                          type="button"
+                          testid="descendingSort"
+                          className="descending-sort-button"
+                          onClick={() => this.changeSortOrder('desc')} // Toggle sort order
+                        >
+                          <FcGenericSortingDesc
+                            style={{
+                              color: '#94A3B8',
+                              width: '18px',
+                              height: '18px',
+                              marginBottom: '-4px',
+                            }}
+                          />
+                        </button>
+                      </li>
+                      <li
+                        className="confirmed-list-item"
+                        style={{width: '76px', marginLeft: '50px'}}
+                      >
+                        Confirmed
+                      </li>
+                      <li
+                        className="confirmed-list-item"
+                        style={{width: '46px', marginLeft: '24px'}}
+                      >
+                        Active
+                      </li>
+                      <li
+                        className="confirmed-list-item"
+                        style={{width: '77px'}}
+                      >
+                        Recovered
+                      </li>
+                      <li
+                        className="confirmed-list-item"
+                        style={{width: '71px'}}
+                      >
+                        Deceased
+                      </li>
+                      <li
+                        className="confirmed-list-item"
+                        style={{width: '78px'}}
+                      >
+                        Population
+                      </li>
+                    </ul>
+                    <hr className="header-line" />
+                    {sortedStates.map(eachState => (
+                      <ul
+                        className="state-wise-cases-details-unordered-list"
+                        key={eachState.stateCode}
+                      >
+                        <li>
+                          <p className="state-name">{eachState.name}</p>
+                        </li>
+                        <li>
+                          <p className="confirmed-cases">
+                            {eachState.confirmed}
+                          </p>
+                        </li>
+                        <li>
+                          <p className="active-cases">{eachState.active}</p>
+                        </li>
+                        <li>
+                          <p className="recovered-cases">
+                            {eachState.recovered}
+                          </p>
+                        </li>
+                        <li>
+                          <p className="deceased-cases">{eachState.deceased}</p>
+                        </li>
+                        <li>
+                          <p className="population">{eachState.population}</p>
+                        </li>
+                      </ul>
+                    ))}
+                  </div>
+                </div>
+
+                <Footer />
+              </>
+            )}
           </div>
         )}
       </div>

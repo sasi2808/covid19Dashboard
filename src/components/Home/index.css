@@ -24,6 +24,13 @@
   align-items: center;
   justify-content: flex-start;
 }
+@media screen and (max-width: 768px) {
+  .search-container {
+    width: 90%;
+    height: 48px;
+  }
+}
+
 .search-icon {
   color: #94a3b8;
   height: 20px;
@@ -42,12 +49,31 @@
   width: 90%;
   border-width: 0px;
   outline: none;
+  padding-right: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .search-input {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #94a3b8;
+  }
 }
 .search-results-unordered-list {
   list-style-type: none;
   margin: 0px;
   padding: 0%;
   width: 60%;
+}
+@media screen and (max-width: 768px) {
+  .search-results-unordered-list {
+    width: 90%;
+  }
 }
 .suggestion-item {
   display: flex;
@@ -66,8 +92,6 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
-   {
-  }
   text-align: left;
   color: #64748b;
 }
@@ -92,6 +116,8 @@
   font-weight: 600;
   line-height: 24px;
   text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
   color: #facc15;
 }
 .redirect-icon {
@@ -107,11 +133,27 @@
   align-items: center;
   margin-top: 90px;
 }
+
+@media screen and (max-width: 768px) {
+  .cases-details-container {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 48px;
+  }
+}
 .country-wide-confirmed-cases-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .country-wide-confirmed-cases-card {
+    width: 45%;
+    margin-bottom: 45px;
+  }
 }
 .confirmed-heading {
   font-family: Roboto;
@@ -141,6 +183,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+@media screen and (max-width: 768px) {
+  .country-wide-active-cases-card {
+    width: 45%;
+    margin-bottom: 45px;
+  }
 }
 .active-heading {
   font-family: Roboto;
@@ -172,6 +220,11 @@
   justify-content: center;
   align-items: center;
 }
+@media screen and (max-width: 768px) {
+  .country-wide-recovered-cases-card {
+    width: 45%;
+  }
+}
 .recovered-heading {
   font-family: Roboto;
   font-size: 16px;
@@ -202,6 +255,11 @@
   justify-content: center;
   align-items: center;
 }
+@media screen and (max-width: 768px) {
+  .country-wide-deceased-cases-card {
+    width: 45%;
+  }
+}
 .deceased-heading {
   font-family: Roboto;
   font-size: 16px;
@@ -226,24 +284,42 @@
   text-align: center;
   color: #6c757d;
 }
-.state-wise-covid-data-table {
-  width: 78%;
+
+.scrollable-container {
+  width: 77%;
   margin-top: 100px;
+}
+@media screen and (max-width: 768px) {
+  .scrollable-container {
+    overflow-x: auto;
+  }
+}
+
+.state-wise-covid-data-table {
+  width: 100%;
   border: 1px solid #475569;
   border-radius: 5px;
   padding: 0%;
 }
+
+@media screen and (max-width: 768px) {
+  .state-wise-covid-data-table {
+    width: 1180px;
+  }
+}
+
 .headings-unordered-list {
   list-style-type: none;
   margin: 0px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 72px;
   padding-left: 32px;
-  padding-right: 32px;
+  padding-right: 20px;
+  width: 100%;
 }
+
 .states-ut-list-item {
   font-family: Roboto;
   font-size: 16px;
@@ -252,6 +328,7 @@
   text-align: left;
   color: #f8fafc;
 }
+
 .ascending-sort-button {
   background-color: transparent;
   border-width: 0px;
@@ -273,11 +350,14 @@
   text-align: left;
   color: #f8fafc;
 }
+
 .header-line {
   border: 1px solid #475569;
   margin: 0px;
   padding: 0%;
+  width: 100%;
 }
+
 .state-wise-cases-details-unordered-list {
   list-style-type: none;
   margin: 0px;
@@ -294,7 +374,7 @@
   line-height: 24px;
   text-align: left;
   color: #f1f5f9;
-  width: 203px;
+  width: 180px;
 }
 .confirmed-cases {
   font-family: Roboto;
@@ -316,6 +396,11 @@
   width: 43px;
   margin-left: 137px;
 }
+@media screen and (max-width: 768px) {
+  .active-cases {
+    margin-left: 150px;
+  }
+}
 .recovered-cases {
   font-family: Roboto;
   font-size: 14px;
@@ -323,7 +408,7 @@
   line-height: 24px;
   text-align: right;
   color: #28a745;
-  width: 43px;
+  width: 63px;
   margin-left: 137px;
 }
 .deceased-cases {
@@ -343,7 +428,7 @@
   line-height: 24px;
   text-align: right;
   color: #94a3b8;
-  width: 65px;
+  width: 70px;
   margin-left: 137px;
 }
 .home-route-loader-container {
@@ -352,4 +437,53 @@
   align-items: center;
   height: 100vh;
   background-color: #161625;
+}
+.mobile-view-header-drop-down {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 32px;
+  padding-top: 24px;
+  padding-right: 21px;
+}
+@media screen and (min-width: 768px) {
+  .mobile-view-header-drop-down {
+    display: none;
+  }
+}
+.home-about-header-mobile-view-unordered-list {
+  display: flex;
+
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+.home-mobile-view-list-item {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.35555556416511536px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #94a3b8;
+  margin-right: 24px;
+}
+.about-mobile-view-list-item {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.35555556416511536px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #94a3b8;
+}
+.wrong-button {
+  background-color: transparent;
+  outline: none;
+  border-width: 0px;
+  cursor: pointer;
 }

@@ -15,6 +15,17 @@
   align-items: center;
 }
 
+@media screen and (max-width: 768px) {
+  .unordered-list-header-container {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 24px;
+    padding-top: 12px;
+    padding-bottom: 14px;
+    padding-right: 16px;
+  }
+}
+
 .covid19India-heading-list-item {
   margin-right: auto;
 }
@@ -38,6 +49,19 @@
   color: #007bff;
 }
 
+@media screen and (min-width: 768px) {
+  .hamburger-icon-mobile-view {
+    display: none;
+  }
+}
+
+.hamburger-icon-button {
+  background-color: transparent;
+  outline: none;
+  border-width: 0px;
+  cursor: pointer;
+}
+
 .home-list-item,
 .about-list-item {
   font-family: 'Roboto', sans-serif;
@@ -48,6 +72,12 @@
   color: #94a3b8;
   margin-right: 45px;
   text-decoration: none;
+}
+@media screen and (max-width: 768px) {
+  .home-list-item,
+  .about-list-item {
+    display: none;
+  }
 }
 
 .active-link {

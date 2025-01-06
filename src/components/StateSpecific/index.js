@@ -24,6 +24,7 @@ class StateSpecific extends Component {
     timelinesDataList: [],
     isStateDetailsLoading: true,
     isTimeLinesDataLoading: true,
+    isHamburgerIconSelected: false,
   }
 
   componentDidMount() {
@@ -219,6 +220,30 @@ class StateSpecific extends Component {
     return value
   }
 
+  onClickingHamburgerIcon = () => {
+    this.setState(prevState => ({
+      isHamburgerIconSelected: !prevState.isHamburgerIconSelected,
+    }))
+  }
+
+  onClickHomeHeaderButton = () => {
+    const {history} = this.props
+    history.push('/')
+
+    this.setState({isHamburgerIconSelected: false})
+  }
+
+  onClickAboutHeaderButton = () => {
+    const {history} = this.props
+    history.push('/about')
+
+    this.setState({isHamburgerIconSelected: false})
+  }
+
+  onClickWrongIcon = () => {
+    this.setState({isHamburgerIconSelected: false})
+  }
+
   render() {
     const {
       specificStateDetails,
@@ -228,6 +253,7 @@ class StateSpecific extends Component {
       timelinesDataList,
       isStateDetailsLoading,
       isTimeLinesDataLoading,
+      isHamburgerIconSelected,
     } = this.state
 
     const {
@@ -269,495 +295,890 @@ class StateSpecific extends Component {
 
     return (
       <div className="state-specific-container">
-        <Header />
-        <div className="state-specific-content-container">
-          {isStateDetailsLoading ? (
-            <div
-              testid="stateDetailsLoader"
-              className="state-details-loader-container"
-            >
-              <Loader type="Oval" color="#007bff" height={80} width={80} />
+        <Header onClickingHamburgerIcon={this.onClickingHamburgerIcon} />
+        <div className="main-mobile-system-content-container">
+          {isHamburgerIconSelected ? (
+            <div className="mobile-view-header-drop-down">
+              <ul className="home-about-header-mobile-view-unordered-list">
+                <button
+                  type="button"
+                  style={{backgroundColor: 'transparent', borderWidth: '0px'}}
+                  onClick={this.onClickHomeHeaderButton}
+                >
+                  <li className="home-mobile-view-list-item">Home</li>
+                </button>
+                <button
+                  type="button"
+                  style={{backgroundColor: 'transparent', borderWidth: '0px'}}
+                  onClick={this.onClickAboutHeaderButton}
+                >
+                  <li className="about-mobile-view-list-item">About</li>
+                </button>
+              </ul>
+              <button
+                type="button"
+                className="wrong-button"
+                onClick={this.onClickWrongIcon}
+              >
+                <img
+                  src="https://res.cloudinary.com/dio3xtbss/image/upload/v1736094569/wrong_icon_pfar5z.png"
+                  alt="wrong icon"
+                />
+              </button>
             </div>
           ) : (
-            <>
-              <div className="state-name-tested-count-container">
-                <div>
-                  <h1 className="state-name-heading">{stateName}</h1>
-                  <p className="last-updated-date-text">{finalString}</p>
+            <div className="state-specific-content-container">
+              {isStateDetailsLoading ? (
+                <div
+                  testid="stateDetailsLoader"
+                  className="state-details-loader-container"
+                >
+                  <Loader type="Oval" color="#007bff" height={80} width={80} />
                 </div>
-                <div>
-                  <h1 className="tested-heading">Tested</h1>
-                  <p className="tested-cases-count">{tested}</p>
-                </div>
-              </div>
-              <div className="state-specific-cases-details-container cases-details-container">
-                <button
-                  type="button"
-                  onClick={this.onClickConfirmedCasesCard}
-                  className="cases-details-card-button"
-                  style={{
-                    backgroundColor: confirmedCardBackgroundColor,
-                  }}
-                >
-                  <div
-                    testid="stateSpecificConfirmedCasesContainer"
-                    className=" country-wide-confirmed-cases-card"
-                  >
-                    <h1 className="confirmed-heading">Confirmed</h1>
-                    <img
-                      src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725803960/c9xvg4hse2d7uirrzrg1.png"
-                      alt="state specific confirmed cases pic"
-                      className="country-wide-confirmed-cases-pic"
-                    />
-                    <p className="confirmed-cases-count">{confirmed}</p>
+              ) : (
+                <>
+                  <div className="state-name-tested-count-container">
+                    <div>
+                      <h1 className="state-name-heading">{stateName}</h1>
+                      <p className="last-updated-date-text">{finalString}</p>
+                    </div>
+                    <div>
+                      <h1 className="tested-heading">Tested</h1>
+                      <p className="tested-cases-count">{tested}</p>
+                    </div>
                   </div>
-                </button>
-                <button
-                  type="button"
-                  className="cases-details-card-button"
-                  onClick={this.onClickActiveCasesCard}
-                  style={{
-                    backgroundColor: activeCardBackgroundColor,
-                  }}
-                >
-                  <div
-                    testid="stateSpecificActiveCasesContainer"
-                    className=" country-wide-active-cases-card"
-                  >
-                    <h1 className="active-heading">Active</h1>
-                    <img
-                      src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808445/difw8wxlzelmwt5dhmko.png"
-                      alt="state specific active cases pic"
-                      className="country-wide-active-cases-pic"
-                    />
-                    <p className="active-cases-count">{active}</p>
-                  </div>
-                </button>
-                <button
-                  type="button"
-                  className="cases-details-card-button"
-                  onClick={this.onClickRecoveredCasesCard}
-                  style={{
-                    backgroundColor: recoveredCardBackgroundColor,
-                  }}
-                >
-                  <div
-                    testid="stateSpecificRecoveredCasesContainer"
-                    className=" country-wide-recovered-cases-card"
-                  >
-                    <h1 className="recovered-heading">Recovered</h1>
-                    <img
-                      src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808928/nmzagyzvvgndlz36arjm.png"
-                      alt="state specific recovered cases pic"
-                      className="country-wide-recovered-cases-pic"
-                    />
-                    <p className="recovered-cases-count">{recovered}</p>
-                  </div>
-                </button>
-                <button
-                  type="button"
-                  className="cases-details-card-button"
-                  onClick={this.onClickDeceasedCasesCard}
-                  style={{
-                    backgroundColor: deceasedCardBackgroundColor,
-                  }}
-                >
-                  <div
-                    testid="stateSpecificDeceasedCasesContainer"
-                    className=" country-wide-deceased-cases-card"
-                  >
-                    <h1 className="deceased-heading">Deceased</h1>
-                    <img
-                      src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725809559/otktge0gfjukkhro65ip.png"
-                      alt="state specific deceased cases pic"
-                      className="country-wide-deceased-cases-pic"
-                    />
-                    <p className="deceased-cases-count">{deceased}</p>
-                  </div>
-                </button>
-              </div>
-              <h1
-                className="top-districts-heading"
-                style={{color: this.topDistrictsColor()}}
-              >
-                Top Districts
-              </h1>
-              <ul
-                testid="topDistrictsUnorderedList"
-                className="top-districts-unordered-list-container"
-              >
-                {topDistricts.map(district => (
-                  <li
-                    className="each-district-list-item"
-                    key={district.districtName}
-                  >
-                    <p className="district-cases-count">
-                      {district[selectedCaseDetailsCard]}
-                    </p>
-                    <p className="district-name">{district.districtName}</p>
-                  </li>
-                ))}
-              </ul>
-              <div className="bar-chart-container">
-                <BarChart
-                  width={1000}
-                  height={400}
-                  data={barChartTimelinesDataList}
-                  margin={{top: 10, right: 30, left: 20, bottom: 25}}
-                  barCategoryGap="20%"
-                  barGap={100}
-                >
-                  <Bar
-                    dataKey={selectedCaseDetailsCard}
-                    fill={this.topDistrictsColor()}
-                    barSize={60}
-                    radius={[8, 8, 0, 0]}
-                  >
-                    <LabelList
-                      dataKey="date"
-                      position="bottom"
+                  <div className="state-specific-cases-details-container cases-details-container">
+                    <button
+                      type="button"
+                      onClick={this.onClickConfirmedCasesCard}
+                      className="cases-details-card-button"
                       style={{
-                        fill: this.topDistrictsColor(),
-                        fontWeight: '400',
-                        fontFamily: 'Roboto',
-                        fontSize: '14px',
+                        backgroundColor: confirmedCardBackgroundColor,
                       }}
-                      offset={10}
-                      formatter={value => value.toUpperCase()}
-                    />
-                    <LabelList
-                      dataKey={selectedCaseDetailsCard}
-                      position="top"
+                    >
+                      <div
+                        testid="stateSpecificConfirmedCasesContainer"
+                        className=" country-wide-confirmed-cases-card"
+                      >
+                        <h1 className="confirmed-heading">Confirmed</h1>
+                        <img
+                          src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725803960/c9xvg4hse2d7uirrzrg1.png"
+                          alt="state specific confirmed cases pic"
+                          className="country-wide-confirmed-cases-pic"
+                        />
+                        <p className="confirmed-cases-count">{confirmed}</p>
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      className="cases-details-card-button"
+                      onClick={this.onClickActiveCasesCard}
                       style={{
-                        fill: this.topDistrictsColor(),
-                        fontWeight: '400',
-                        fontFamily: 'Roboto',
-                        fontSize: '14px',
+                        backgroundColor: activeCardBackgroundColor,
                       }}
-                      offset={10}
-                      formatter={value => this.formattingBarChartCases(value)}
+                    >
+                      <div
+                        testid="stateSpecificActiveCasesContainer"
+                        className=" country-wide-active-cases-card"
+                      >
+                        <h1 className="active-heading">Active</h1>
+                        <img
+                          src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808445/difw8wxlzelmwt5dhmko.png"
+                          alt="state specific active cases pic"
+                          className="country-wide-active-cases-pic"
+                        />
+                        <p className="active-cases-count">{active}</p>
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      className="cases-details-card-button"
+                      onClick={this.onClickRecoveredCasesCard}
+                      style={{
+                        backgroundColor: recoveredCardBackgroundColor,
+                      }}
+                    >
+                      <div
+                        testid="stateSpecificRecoveredCasesContainer"
+                        className=" country-wide-recovered-cases-card"
+                      >
+                        <h1 className="recovered-heading">Recovered</h1>
+                        <img
+                          src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808928/nmzagyzvvgndlz36arjm.png"
+                          alt="state specific recovered cases pic"
+                          className="country-wide-recovered-cases-pic"
+                        />
+                        <p className="recovered-cases-count">{recovered}</p>
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      className="cases-details-card-button"
+                      onClick={this.onClickDeceasedCasesCard}
+                      style={{
+                        backgroundColor: deceasedCardBackgroundColor,
+                      }}
+                    >
+                      <div
+                        testid="stateSpecificDeceasedCasesContainer"
+                        className=" country-wide-deceased-cases-card"
+                      >
+                        <h1 className="deceased-heading">Deceased</h1>
+                        <img
+                          src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725809559/otktge0gfjukkhro65ip.png"
+                          alt="state specific deceased cases pic"
+                          className="country-wide-deceased-cases-pic"
+                        />
+                        <p className="deceased-cases-count">{deceased}</p>
+                      </div>
+                    </button>
+                  </div>
+                  <h1
+                    className="top-districts-heading"
+                    style={{color: this.topDistrictsColor()}}
+                  >
+                    Top Districts
+                  </h1>
+                  <ul
+                    testid="topDistrictsUnorderedList"
+                    className="top-districts-unordered-list-container"
+                  >
+                    {topDistricts.map(district => (
+                      <li
+                        className="each-district-list-item"
+                        key={district.districtName}
+                      >
+                        <p className="district-cases-count">
+                          {district[selectedCaseDetailsCard]}
+                        </p>
+                        <p className="district-name">{district.districtName}</p>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="bar-chart-container">
+                    <BarChart
+                      width={1000}
+                      height={400}
+                      data={barChartTimelinesDataList}
+                      margin={{top: 10, right: 30, left: 20, bottom: 25}}
+                      barGap={50}
+                    >
+                      <Bar
+                        dataKey={selectedCaseDetailsCard}
+                        fill={this.topDistrictsColor()}
+                        barSize={60}
+                        radius={[8, 8, 0, 0]}
+                      >
+                        <LabelList
+                          dataKey="date"
+                          position="bottom"
+                          style={{
+                            fill: this.topDistrictsColor(),
+                            fontWeight: '400',
+                            fontFamily: 'Roboto',
+                            fontSize: '14px',
+                          }}
+                          offset={10}
+                          formatter={value => value.toUpperCase()}
+                        />
+                        <LabelList
+                          dataKey={selectedCaseDetailsCard}
+                          position="top"
+                          style={{
+                            fill: this.topDistrictsColor(),
+                            fontWeight: '400',
+                            fontFamily: 'Roboto',
+                            fontSize: '14px',
+                          }}
+                          offset={10}
+                          formatter={value =>
+                            this.formattingBarChartCases(value)
+                          }
+                        />
+                      </Bar>
+                    </BarChart>
+                  </div>
+                  <div className="mini-bar-chart-container">
+                    <BarChart
+                      width={307}
+                      height={160}
+                      data={barChartTimelinesDataList}
+                      margin={{top: 10, right: 30, left: 20, bottom: 25}}
+                      barGap={13}
+                    >
+                      <Bar
+                        dataKey={selectedCaseDetailsCard}
+                        fill={this.topDistrictsColor()}
+                        barSize={19}
+                        radius={[8, 8, 0, 0]}
+                      >
+                        <LabelList
+                          dataKey="date"
+                          position="bottom"
+                          style={{
+                            fill: this.topDistrictsColor(),
+                            fontWeight: '500',
+                            fontFamily: 'Roboto',
+                            fontSize: '4px',
+                          }}
+                          offset={10}
+                          formatter={value => value.toUpperCase()}
+                        />
+                        <LabelList
+                          dataKey={selectedCaseDetailsCard}
+                          position="top"
+                          style={{
+                            fill: this.topDistrictsColor(),
+                            fontWeight: '500',
+                            fontFamily: 'Roboto',
+                            fontSize: '4px',
+                          }}
+                          offset={10}
+                          formatter={value =>
+                            this.formattingBarChartCases(value)
+                          }
+                        />
+                      </Bar>
+                    </BarChart>
+                  </div>
+                </>
+              )}
+              <div className="daily-spread-trends-line-charts-container">
+                <h1 className="daily-spread-trends-heading">
+                  Daily Spread Trends
+                </h1>
+                {isTimeLinesDataLoading ? (
+                  <div
+                    testid="timelinesDataLoader"
+                    className="time-lines-loader-container"
+                  >
+                    <Loader
+                      type="Oval"
+                      color="#007bff"
+                      height={80}
+                      width={80}
                     />
-                  </Bar>
-                </BarChart>
-              </div>
-            </>
-          )}
+                  </div>
+                ) : (
+                  <div testid="lineChartContainer">
+                    <div
+                      className="confirmed-cases-line-chart-container"
+                      style={{backgroundColor: '#331427', marginTop: '28px'}}
+                    >
+                      <h1 className="line-chart-confirmed-heading">
+                        Confirmed
+                      </h1>
 
-          <div className="daily-spread-trends-line-charts-container">
-            <h1 className="daily-spread-trends-heading">Daily Spread Trends</h1>
-            {isTimeLinesDataLoading ? (
+                      <LineChart
+                        width={1200}
+                        height={290}
+                        data={timelinesDataList}
+                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                      >
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '13px',
+                            fontWeight: '450',
+                            lineHeight: '24px',
+                            fill: '#FF073A',
+                          }}
+                          tickLine={{stroke: '#FF073A', strokeWidth: 1}}
+                          axisLine={{stroke: '#FF073A', strokeWidth: 1}}
+                          tickMargin={10}
+                          tickSize={8}
+                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                        />
+                        <YAxis
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '13px',
+                            fontWeight: '450',
+                            lineHeight: '24px',
+                            fill: '#FF073A',
+                          }}
+                          tickLine={{stroke: '#FF073A', strokeWidth: 1}}
+                          axisLine={{stroke: '#FF073A', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={8}
+                          tickFormatter={value =>
+                            value > 0 ? `${value / 1000}K` : 0
+                          }
+                        />
+                        <Tooltip />
+
+                        <Line
+                          type="monotone"
+                          dataKey="confirmed"
+                          stroke="#FF073A"
+                          strokeWidth="2"
+                          dot={{
+                            stroke: ' #FF073A',
+                            strokeWidth: 1,
+                            fill: '#FF073A',
+                          }}
+                        />
+                      </LineChart>
+                    </div>
+                    <div
+                      className="mini-confirmed-cases-line-chart-container"
+                      style={{backgroundColor: '#331427', marginTop: '28px'}}
+                    >
+                      <h1 className="line-chart-confirmed-heading">
+                        Confirmed
+                      </h1>
+
+                      <LineChart
+                        width={312}
+                        height={250}
+                        data={timelinesDataList}
+                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                      >
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '8px',
+                            fontWeight: '450',
+                            lineHeight: '12px',
+                            fill: '#FF073A',
+                          }}
+                          tickLine={{stroke: '#FF073A', strokeWidth: 1}}
+                          axisLine={{stroke: '#FF073A', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={6}
+                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                        />
+                        <YAxis
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '8px',
+                            fontWeight: '450',
+                            lineHeight: '12px',
+                            fill: '#FF073A',
+                          }}
+                          tickLine={{stroke: '#FF073A', strokeWidth: 1}}
+                          axisLine={{stroke: '#FF073A', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={8}
+                          tickFormatter={value =>
+                            value > 0 ? `${value / 1000}K` : 0
+                          }
+                        />
+                        <Tooltip />
+
+                        <Line
+                          type="monotone"
+                          dataKey="confirmed"
+                          stroke="#FF073A"
+                          strokeWidth="1"
+                          dot={{
+                            stroke: ' #FF073A',
+                            strokeWidth: 0,
+                            fill: '#FF073A',
+                          }}
+                        />
+                      </LineChart>
+                    </div>
+                    <div
+                      className="confirmed-cases-line-chart-container"
+                      style={{backgroundColor: '#132240', marginTop: '28px'}}
+                    >
+                      <h1
+                        className="line-chart-confirmed-heading"
+                        style={{color: '#007BFF'}}
+                      >
+                        Total Active
+                      </h1>
+                      <LineChart
+                        width={1200}
+                        height={290}
+                        data={timelinesDataList}
+                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                      >
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '13px',
+                            fontWeight: '450',
+                            lineHeight: '24px',
+                            fill: '#007BFF',
+                          }}
+                          tickLine={{stroke: '#007BFF', strokeWidth: 1}}
+                          axisLine={{stroke: '#007BFF', strokeWidth: 1}}
+                          tickMargin={10}
+                          tickSize={8}
+                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                        />
+                        <YAxis
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '13px',
+                            fontWeight: '450',
+                            lineHeight: '24px',
+                            fill: '#007BFF',
+                          }}
+                          tickLine={{stroke: '#007BFF', strokeWidth: 1}}
+                          axisLine={{stroke: '#007BFF', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={8}
+                        />
+                        <Tooltip />
+
+                        <Line
+                          type="monotone"
+                          dataKey="active"
+                          stroke="#007BFF"
+                          strokeWidth="2"
+                          dot={{
+                            stroke: ' #007BFF',
+                            strokeWidth: 1,
+                            fill: '#007BFF',
+                          }}
+                        />
+                      </LineChart>
+                    </div>
+                    <div
+                      className="mini-confirmed-cases-line-chart-container"
+                      style={{backgroundColor: '#132240', marginTop: '28px'}}
+                    >
+                      <h1
+                        className="line-chart-confirmed-heading"
+                        style={{color: '#007BFF'}}
+                      >
+                        Total Active
+                      </h1>
+                      <LineChart
+                        width={312}
+                        height={250}
+                        data={timelinesDataList}
+                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                      >
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '8px',
+                            fontWeight: '450',
+                            lineHeight: '12px',
+                            fill: '#007BFF',
+                          }}
+                          tickLine={{stroke: '#007BFF', strokeWidth: 1}}
+                          axisLine={{stroke: '#007BFF', strokeWidth: 1}}
+                          tickMargin={10}
+                          tickSize={8}
+                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                        />
+                        <YAxis
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '8px',
+                            fontWeight: '450',
+                            lineHeight: '12px',
+                            fill: '#007BFF',
+                          }}
+                          tickLine={{stroke: '#007BFF', strokeWidth: 1}}
+                          axisLine={{stroke: '#007BFF', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={8}
+                        />
+                        <Tooltip />
+
+                        <Line
+                          type="monotone"
+                          dataKey="active"
+                          stroke="#007BFF"
+                          strokeWidth="1"
+                          dot={{
+                            stroke: ' #007BFF',
+                            strokeWidth: 0,
+                            fill: '#007BFF',
+                          }}
+                        />
+                      </LineChart>
+                    </div>
+                    <div
+                      className="confirmed-cases-line-chart-container"
+                      style={{backgroundColor: '#182829', marginTop: '28px'}}
+                    >
+                      <h1
+                        className="line-chart-confirmed-heading"
+                        style={{color: '#27A243'}}
+                      >
+                        Recovered
+                      </h1>
+                      <LineChart
+                        width={1200}
+                        height={290}
+                        data={timelinesDataList}
+                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                      >
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '13px',
+                            fontWeight: '450',
+                            lineHeight: '24px',
+                            fill: '#27A243',
+                          }}
+                          tickLine={{stroke: '#27A243', strokeWidth: 1}}
+                          axisLine={{stroke: '#27A243', strokeWidth: 1}}
+                          tickMargin={10}
+                          tickSize={8}
+                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                        />
+                        <YAxis
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '13px',
+                            fontWeight: '450',
+                            lineHeight: '24px',
+                            fill: '#27A243',
+                          }}
+                          tickLine={{stroke: '#27A243', strokeWidth: 1}}
+                          axisLine={{stroke: '#27A243', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={8}
+                          tickFormatter={value =>
+                            value > 0 ? `${value / 1000}K` : 0
+                          }
+                        />
+                        <Tooltip />
+
+                        <Line
+                          type="monotone"
+                          dataKey="recovered"
+                          stroke="#27A243"
+                          strokeWidth="2"
+                          dot={{
+                            stroke: ' #27A243',
+                            strokeWidth: 1,
+                            fill: '#27A243',
+                          }}
+                        />
+                      </LineChart>
+                    </div>
+                    <div
+                      className="mini-confirmed-cases-line-chart-container"
+                      style={{backgroundColor: '#182829', marginTop: '28px'}}
+                    >
+                      <h1
+                        className="line-chart-confirmed-heading"
+                        style={{color: '#27A243'}}
+                      >
+                        Recovered
+                      </h1>
+                      <LineChart
+                        width={312}
+                        height={250}
+                        data={timelinesDataList}
+                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                      >
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '8px',
+                            fontWeight: '450',
+                            lineHeight: '12px',
+                            fill: '#27A243',
+                          }}
+                          tickLine={{stroke: '#27A243', strokeWidth: 1}}
+                          axisLine={{stroke: '#27A243', strokeWidth: 1}}
+                          tickMargin={10}
+                          tickSize={8}
+                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                        />
+                        <YAxis
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '8px',
+                            fontWeight: '450',
+                            lineHeight: '12px',
+                            fill: '#27A243',
+                          }}
+                          tickLine={{stroke: '#27A243', strokeWidth: 1}}
+                          axisLine={{stroke: '#27A243', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={8}
+                          tickFormatter={value =>
+                            value > 0 ? `${value / 1000}K` : 0
+                          }
+                        />
+                        <Tooltip />
+
+                        <Line
+                          type="monotone"
+                          dataKey="recovered"
+                          stroke="#27A243"
+                          strokeWidth="1"
+                          dot={{
+                            stroke: ' #27A243',
+                            strokeWidth: 0,
+                            fill: '#27A243',
+                          }}
+                        />
+                      </LineChart>
+                    </div>
+                    <div
+                      className="confirmed-cases-line-chart-container"
+                      style={{backgroundColor: '#1C1C2B', marginTop: '28px'}}
+                    >
+                      <h1
+                        className="line-chart-confirmed-heading"
+                        style={{color: '#6C757D'}}
+                      >
+                        Deceased
+                      </h1>
+                      <LineChart
+                        width={1200}
+                        height={290}
+                        data={timelinesDataList}
+                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                      >
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '13px',
+                            fontWeight: '450',
+                            lineHeight: '24px',
+                            fill: '#6C757D',
+                          }}
+                          tickLine={{stroke: '#6C757D', strokeWidth: 1}}
+                          axisLine={{stroke: '#6C757D', strokeWidth: 1}}
+                          tickMargin={10}
+                          tickSize={8}
+                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                        />
+                        <YAxis
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '13px',
+                            fontWeight: '450',
+                            lineHeight: '24px',
+                            fill: '#6C757D',
+                          }}
+                          tickLine={{stroke: '#6C757D', strokeWidth: 1}}
+                          axisLine={{stroke: '#6C757D', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={8}
+                        />
+                        <Tooltip />
+
+                        <Line
+                          type="monotone"
+                          dataKey="deceased"
+                          stroke="#6C757D"
+                          strokeWidth="2"
+                          dot={{
+                            stroke: ' #6C757D',
+                            strokeWidth: 1,
+                            fill: '#6C757D',
+                          }}
+                        />
+                      </LineChart>
+                    </div>
+                    <div
+                      className="mini-confirmed-cases-line-chart-container"
+                      style={{backgroundColor: '#1C1C2B', marginTop: '28px'}}
+                    >
+                      <h1
+                        className="line-chart-confirmed-heading"
+                        style={{color: '#6C757D'}}
+                      >
+                        Deceased
+                      </h1>
+                      <LineChart
+                        width={312}
+                        height={250}
+                        data={timelinesDataList}
+                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                      >
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '8px',
+                            fontWeight: '450',
+                            lineHeight: '12px',
+                            fill: '#6C757D',
+                          }}
+                          tickLine={{stroke: '#6C757D', strokeWidth: 1}}
+                          axisLine={{stroke: '#6C757D', strokeWidth: 1}}
+                          tickMargin={10}
+                          tickSize={8}
+                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                        />
+                        <YAxis
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '8px',
+                            fontWeight: '450',
+                            lineHeight: '12px',
+                            fill: '#6C757D',
+                          }}
+                          tickLine={{stroke: '#6C757D', strokeWidth: 1}}
+                          axisLine={{stroke: '#6C757D', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={8}
+                        />
+                        <Tooltip />
+
+                        <Line
+                          type="monotone"
+                          dataKey="deceased"
+                          stroke="#6C757D"
+                          strokeWidth="1"
+                          dot={{
+                            stroke: ' #6C757D',
+                            strokeWidth: 0,
+                            fill: '#6C757D',
+                          }}
+                        />
+                      </LineChart>
+                    </div>
+                    <div
+                      className="confirmed-cases-line-chart-container"
+                      style={{backgroundColor: '#230F41', marginTop: '28px'}}
+                    >
+                      <h1
+                        className="line-chart-confirmed-heading"
+                        style={{color: '#9673B9'}}
+                      >
+                        Tested
+                      </h1>
+                      <LineChart
+                        width={1200}
+                        height={290}
+                        data={timelinesDataList}
+                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                      >
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '13px',
+                            fontWeight: '450',
+                            lineHeight: '24px',
+                            fill: '#9673B9',
+                          }}
+                          tickLine={{stroke: '#9673B9', strokeWidth: 1}}
+                          axisLine={{stroke: '#9673B9', strokeWidth: 1}}
+                          tickMargin={10}
+                          tickSize={8}
+                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                        />
+                        <YAxis
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '13px',
+                            fontWeight: '450',
+                            lineHeight: '24px',
+                            fill: '#9673B9',
+                          }}
+                          tickLine={{stroke: '#9673B9', strokeWidth: 1}}
+                          axisLine={{stroke: '#9673B9', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={8}
+                          tickFormatter={value =>
+                            value > 0 ? `${value / 100000}L` : 0
+                          }
+                        />
+                        <Tooltip />
+
+                        <Line
+                          type="monotone"
+                          dataKey="tested"
+                          stroke="#9673B9"
+                          strokeWidth="2"
+                          dot={{
+                            stroke: ' #9673B9',
+                            strokeWidth: 1,
+                            fill: '#9673B9',
+                          }}
+                        />
+                      </LineChart>
+                    </div>
+                    <div
+                      className="mini-confirmed-cases-line-chart-container"
+                      style={{backgroundColor: '#230F41', marginTop: '28px'}}
+                    >
+                      <h1
+                        className="line-chart-confirmed-heading"
+                        style={{color: '#9673B9'}}
+                      >
+                        Tested
+                      </h1>
+                      <LineChart
+                        width={312}
+                        height={250}
+                        data={timelinesDataList}
+                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                      >
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '8px',
+                            fontWeight: '450',
+                            lineHeight: '12px',
+                            fill: '#9673B9',
+                          }}
+                          tickLine={{stroke: '#9673B9', strokeWidth: 1}}
+                          axisLine={{stroke: '#9673B9', strokeWidth: 1}}
+                          tickMargin={10}
+                          tickSize={8}
+                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                        />
+                        <YAxis
+                          tick={{
+                            fontFamily: 'Roboto',
+                            fontSize: '8px',
+                            fontWeight: '450',
+                            lineHeight: '12px',
+                            fill: '#9673B9',
+                          }}
+                          tickLine={{stroke: '#9673B9', strokeWidth: 1}}
+                          axisLine={{stroke: '#9673B9', strokeWidth: 1}}
+                          tickMargin={8}
+                          tickSize={8}
+                          tickFormatter={value =>
+                            value > 0 ? `${value / 100000}L` : 0
+                          }
+                        />
+                        <Tooltip />
+
+                        <Line
+                          type="monotone"
+                          dataKey="tested"
+                          stroke="#9673B9"
+                          strokeWidth="1"
+                          dot={{
+                            stroke: ' #9673B9',
+                            strokeWidth: 0,
+                            fill: '#9673B9',
+                          }}
+                        />
+                      </LineChart>
+                    </div>
+                  </div>
+                )}
+              </div>
               <div
-                testid="timelinesDataLoader"
-                className="time-lines-loader-container"
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
               >
-                <Loader type="Oval" color="#007bff" height={80} width={80} />
+                <Footer />
               </div>
-            ) : (
-              <div testid="lineChartContainer">
-                <div className="confirmed-cases-line-chart-container">
-                  <h1 className="line-chart-confirmed-heading">Confirmed</h1>
-                  <LineChart
-                    width={1200}
-                    height={290}
-                    data={timelinesDataList}
-                    margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                  >
-                    <XAxis
-                      dataKey="date"
-                      tick={{
-                        fontFamily: 'Roboto',
-                        fontSize: '13px',
-                        fontWeight: '450',
-                        lineHeight: '24px',
-                        fill: '#FF073A',
-                      }}
-                      tickLine={{stroke: '#FF073A', strokeWidth: 1}}
-                      axisLine={{stroke: '#FF073A', strokeWidth: 1}}
-                      tickMargin={10}
-                      tickSize={8}
-                      ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                    />
-                    <YAxis
-                      tick={{
-                        fontFamily: 'Roboto',
-                        fontSize: '13px',
-                        fontWeight: '450',
-                        lineHeight: '24px',
-                        fill: '#FF073A',
-                      }}
-                      tickLine={{stroke: '#FF073A', strokeWidth: 1}}
-                      axisLine={{stroke: '#FF073A', strokeWidth: 1}}
-                      tickMargin={8}
-                      tickSize={8}
-                      tickFormatter={value =>
-                        value > 0 ? `${value / 1000}K` : 0
-                      }
-                    />
-                    <Tooltip />
-
-                    <Line
-                      type="monotone"
-                      dataKey="confirmed"
-                      stroke="#FF073A"
-                      strokeWidth="2"
-                      dot={{
-                        stroke: ' #FF073A',
-                        strokeWidth: 1,
-                        fill: '#FF073A',
-                      }}
-                    />
-                  </LineChart>
-                </div>
-                <div
-                  className="confirmed-cases-line-chart-container"
-                  style={{backgroundColor: '#132240', marginTop: '28px'}}
-                >
-                  <h1
-                    className="line-chart-confirmed-heading"
-                    style={{color: '#007BFF'}}
-                  >
-                    Total Active
-                  </h1>
-                  <LineChart
-                    width={1200}
-                    height={290}
-                    data={timelinesDataList}
-                    margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                  >
-                    <XAxis
-                      dataKey="date"
-                      tick={{
-                        fontFamily: 'Roboto',
-                        fontSize: '13px',
-                        fontWeight: '450',
-                        lineHeight: '24px',
-                        fill: '#007BFF',
-                      }}
-                      tickLine={{stroke: '#007BFF', strokeWidth: 1}}
-                      axisLine={{stroke: '#007BFF', strokeWidth: 1}}
-                      tickMargin={10}
-                      tickSize={8}
-                      ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                    />
-                    <YAxis
-                      tick={{
-                        fontFamily: 'Roboto',
-                        fontSize: '13px',
-                        fontWeight: '450',
-                        lineHeight: '24px',
-                        fill: '#007BFF',
-                      }}
-                      tickLine={{stroke: '#007BFF', strokeWidth: 1}}
-                      axisLine={{stroke: '#007BFF', strokeWidth: 1}}
-                      tickMargin={8}
-                      tickSize={8}
-                    />
-                    <Tooltip />
-
-                    <Line
-                      type="monotone"
-                      dataKey="active"
-                      stroke="#007BFF"
-                      strokeWidth="2"
-                      dot={{
-                        stroke: ' #007BFF',
-                        strokeWidth: 1,
-                        fill: '#007BFF',
-                      }}
-                    />
-                  </LineChart>
-                </div>
-                <div
-                  className="confirmed-cases-line-chart-container"
-                  style={{backgroundColor: '#182829', marginTop: '28px'}}
-                >
-                  <h1
-                    className="line-chart-confirmed-heading"
-                    style={{color: '#27A243'}}
-                  >
-                    Recovered
-                  </h1>
-                  <LineChart
-                    width={1200}
-                    height={290}
-                    data={timelinesDataList}
-                    margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                  >
-                    <XAxis
-                      dataKey="date"
-                      tick={{
-                        fontFamily: 'Roboto',
-                        fontSize: '13px',
-                        fontWeight: '450',
-                        lineHeight: '24px',
-                        fill: '#27A243',
-                      }}
-                      tickLine={{stroke: '#27A243', strokeWidth: 1}}
-                      axisLine={{stroke: '#27A243', strokeWidth: 1}}
-                      tickMargin={10}
-                      tickSize={8}
-                      ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                    />
-                    <YAxis
-                      tick={{
-                        fontFamily: 'Roboto',
-                        fontSize: '13px',
-                        fontWeight: '450',
-                        lineHeight: '24px',
-                        fill: '#27A243',
-                      }}
-                      tickLine={{stroke: '#27A243', strokeWidth: 1}}
-                      axisLine={{stroke: '#27A243', strokeWidth: 1}}
-                      tickMargin={8}
-                      tickSize={8}
-                      tickFormatter={value =>
-                        value > 0 ? `${value / 1000}K` : 0
-                      }
-                    />
-                    <Tooltip />
-
-                    <Line
-                      type="monotone"
-                      dataKey="recovered"
-                      stroke="#27A243"
-                      strokeWidth="2"
-                      dot={{
-                        stroke: ' #27A243',
-                        strokeWidth: 1,
-                        fill: '#27A243',
-                      }}
-                    />
-                  </LineChart>
-                </div>
-                <div
-                  className="confirmed-cases-line-chart-container"
-                  style={{backgroundColor: '#1C1C2B', marginTop: '28px'}}
-                >
-                  <h1
-                    className="line-chart-confirmed-heading"
-                    style={{color: '#6C757D'}}
-                  >
-                    Deceased
-                  </h1>
-                  <LineChart
-                    width={1200}
-                    height={290}
-                    data={timelinesDataList}
-                    margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                  >
-                    <XAxis
-                      dataKey="date"
-                      tick={{
-                        fontFamily: 'Roboto',
-                        fontSize: '13px',
-                        fontWeight: '450',
-                        lineHeight: '24px',
-                        fill: '#6C757D',
-                      }}
-                      tickLine={{stroke: '#6C757D', strokeWidth: 1}}
-                      axisLine={{stroke: '#6C757D', strokeWidth: 1}}
-                      tickMargin={10}
-                      tickSize={8}
-                      ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                    />
-                    <YAxis
-                      tick={{
-                        fontFamily: 'Roboto',
-                        fontSize: '13px',
-                        fontWeight: '450',
-                        lineHeight: '24px',
-                        fill: '#6C757D',
-                      }}
-                      tickLine={{stroke: '#6C757D', strokeWidth: 1}}
-                      axisLine={{stroke: '#6C757D', strokeWidth: 1}}
-                      tickMargin={8}
-                      tickSize={8}
-                    />
-                    <Tooltip />
-
-                    <Line
-                      type="monotone"
-                      dataKey="deceased"
-                      stroke="#6C757D"
-                      strokeWidth="2"
-                      dot={{
-                        stroke: ' #6C757D',
-                        strokeWidth: 1,
-                        fill: '#6C757D',
-                      }}
-                    />
-                  </LineChart>
-                </div>
-                <div
-                  className="confirmed-cases-line-chart-container"
-                  style={{backgroundColor: '#230F41', marginTop: '28px'}}
-                >
-                  <h1
-                    className="line-chart-confirmed-heading"
-                    style={{color: '#9673B9'}}
-                  >
-                    Tested
-                  </h1>
-                  <LineChart
-                    width={1200}
-                    height={290}
-                    data={timelinesDataList}
-                    margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                  >
-                    <XAxis
-                      dataKey="date"
-                      tick={{
-                        fontFamily: 'Roboto',
-                        fontSize: '13px',
-                        fontWeight: '450',
-                        lineHeight: '24px',
-                        fill: '#9673B9',
-                      }}
-                      tickLine={{stroke: '#9673B9', strokeWidth: 1}}
-                      axisLine={{stroke: '#9673B9', strokeWidth: 1}}
-                      tickMargin={10}
-                      tickSize={8}
-                      ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                    />
-                    <YAxis
-                      tick={{
-                        fontFamily: 'Roboto',
-                        fontSize: '13px',
-                        fontWeight: '450',
-                        lineHeight: '24px',
-                        fill: '#9673B9',
-                      }}
-                      tickLine={{stroke: '#9673B9', strokeWidth: 1}}
-                      axisLine={{stroke: '#9673B9', strokeWidth: 1}}
-                      tickMargin={8}
-                      tickSize={8}
-                      tickFormatter={value =>
-                        value > 0 ? `${value / 100000}L` : 0
-                      }
-                    />
-                    <Tooltip />
-
-                    <Line
-                      type="monotone"
-                      dataKey="tested"
-                      stroke="#9673B9"
-                      strokeWidth="2"
-                      dot={{
-                        stroke: ' #9673B9',
-                        strokeWidth: 1,
-                        fill: '#9673B9',
-                      }}
-                    />
-                  </LineChart>
-                </div>
-              </div>
-            )}
-          </div>
-          <div
-            style={{width: '90%', display: 'flex', justifyContent: 'center'}}
-          >
-            <Footer />
-          </div>
+            </div>
+          )}
         </div>
       </div>
     )
