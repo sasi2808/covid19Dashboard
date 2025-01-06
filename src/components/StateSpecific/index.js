@@ -343,7 +343,7 @@ class StateSpecific extends Component {
                       <p className="last-updated-date-text">{finalString}</p>
                     </div>
                     <div>
-                      <h1 className="tested-heading">Tested</h1>
+                      <p className="tested-heading">Tested</p>
                       <p className="tested-cases-count">{tested}</p>
                     </div>
                   </div>
@@ -360,7 +360,7 @@ class StateSpecific extends Component {
                         testid="stateSpecificConfirmedCasesContainer"
                         className=" country-wide-confirmed-cases-card"
                       >
-                        <h1 className="confirmed-heading">Confirmed</h1>
+                        <p className="confirmed-heading">Confirmed</p>
                         <img
                           src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725803960/c9xvg4hse2d7uirrzrg1.png"
                           alt="state specific confirmed cases pic"
@@ -381,7 +381,7 @@ class StateSpecific extends Component {
                         testid="stateSpecificActiveCasesContainer"
                         className=" country-wide-active-cases-card"
                       >
-                        <h1 className="active-heading">Active</h1>
+                        <p className="active-heading">Active</p>
                         <img
                           src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808445/difw8wxlzelmwt5dhmko.png"
                           alt="state specific active cases pic"
@@ -402,7 +402,7 @@ class StateSpecific extends Component {
                         testid="stateSpecificRecoveredCasesContainer"
                         className=" country-wide-recovered-cases-card"
                       >
-                        <h1 className="recovered-heading">Recovered</h1>
+                        <p className="recovered-heading">Recovered</p>
                         <img
                           src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808928/nmzagyzvvgndlz36arjm.png"
                           alt="state specific recovered cases pic"
@@ -423,7 +423,7 @@ class StateSpecific extends Component {
                         testid="stateSpecificDeceasedCasesContainer"
                         className=" country-wide-deceased-cases-card"
                       >
-                        <h1 className="deceased-heading">Deceased</h1>
+                        <p className="deceased-heading">Deceased</p>
                         <img
                           src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725809559/otktge0gfjukkhro65ip.png"
                           alt="state specific deceased cases pic"
@@ -560,7 +560,7 @@ class StateSpecific extends Component {
                     />
                   </div>
                 ) : (
-                  <div testid="lineChartContainer">
+                  <div testid="lineChartsContainer">
                     <div
                       className="confirmed-cases-line-chart-container"
                       style={{backgroundColor: '#331427', marginTop: '28px'}}

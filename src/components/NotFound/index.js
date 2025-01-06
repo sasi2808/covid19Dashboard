@@ -10,13 +10,12 @@ const NotFound = props => {
     <div className="not-found-container">
       <img
         src="https://res.cloudinary.com/dio3xtbss/image/upload/v1735739238/notfound_qvgedk.png"
-        alt="notFoundImg"
+        alt="not-found-pic"
         className="not-found-img"
       />
-      <p className="page-not-found-text">PAGE NOT FOUND</p>
+      <h1 className="page-not-found-text">PAGE NOT FOUND</h1>
       <p className="not-found-description">
-        we’re sorry, the page you requested could not be found Please go back to
-        the homepage
+        we are sorry, the page you requested could not be found
       </p>
       <button
         type="button"

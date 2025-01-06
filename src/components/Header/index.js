@@ -1,4 +1,4 @@
-import {NavLink, withRouter} from 'react-router-dom'
+import {Link, NavLink, withRouter} from 'react-router-dom'
 
 import './index.css'
 
@@ -13,10 +13,13 @@ const Header = props => {
     <nav className="nav-container">
       <ul className="unordered-list-header-container">
         <li className="covid19India-heading-list-item">
-          <h1 className="covid19-heading-element">
-            COVID19<span className="india-span-element">INDIA</span>
-          </h1>
+          <Link to="/" style={{textDecoration: 'none'}}>
+            <h1 className="covid19-heading-element">
+              COVID19<span className="india-span-element">INDIA</span>
+            </h1>
+          </Link>
         </li>
+
         <li className="hamburger-icon-mobile-view">
           <button
             type="button"

@@ -2,6 +2,7 @@ import {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {BsSearch} from 'react-icons/bs'
 import {FcGenericSortingAsc, FcGenericSortingDesc} from 'react-icons/fc'
+import {BiChevronRightSquare} from 'react-icons/bi'
 
 import Loader from 'react-loader-spinner'
 
@@ -238,11 +239,7 @@ class Home extends Component {
                           <p className="state-name">{state.name}</p>
                           <div className="redirect-icon-container">
                             <p className="state-code">{state.stateCode}</p>
-                            <img
-                              src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725909338/seqrbsyvk3fdbp87aqez.png"
-                              className="redirect-icon"
-                              alt="redirect icon"
-                            />
+                            <BiChevronRightSquare color="#FACC15" size={20} />
                           </div>
                         </li>
                       </Link>
@@ -254,7 +251,7 @@ class Home extends Component {
                     testid="countryWideConfirmedCases"
                     className="country-wide-confirmed-cases-card"
                   >
-                    <h1 className="confirmed-heading">Confirmed</h1>
+                    <p className="confirmed-heading">Confirmed</p>
                     <img
                       src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725803960/c9xvg4hse2d7uirrzrg1.png"
                       alt="country wide confirmed cases pic"
@@ -266,7 +263,7 @@ class Home extends Component {
                     testid="countryWideActiveCases"
                     className="country-wide-active-cases-card"
                   >
-                    <h1 className="active-heading">Active</h1>
+                    <p className="active-heading">Active</p>
                     <img
                       src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808445/difw8wxlzelmwt5dhmko.png"
                       alt="country wide active cases pic"
@@ -280,7 +277,7 @@ class Home extends Component {
                     testid="countryWideRecoveredCases"
                     className="country-wide-recovered-cases-card"
                   >
-                    <h1 className="recovered-heading">Recovered</h1>
+                    <p className="recovered-heading">Recovered</p>
                     <img
                       src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725808928/nmzagyzvvgndlz36arjm.png"
                       alt="country wide recovered cases pic"
@@ -294,7 +291,7 @@ class Home extends Component {
                     testid="countryWideDeceasedCases"
                     className="country-wide-deceased-cases-card"
                   >
-                    <h1 className="deceased-heading">Deceased</h1>
+                    <p className="deceased-heading">Deceased</p>
                     <img
                       src="https://res.cloudinary.com/dio3xtbss/image/upload/v1725809559/otktge0gfjukkhro65ip.png"
                       alt="country wide deceased cases pic"
@@ -307,8 +304,8 @@ class Home extends Component {
                 </div>
                 <div className="scrollable-container">
                   <div
-                    testid="stateWiseCovidDataTable"
                     className="state-wise-covid-data-table"
+                    testid="stateWiseCovidDataTable"
                   >
                     <ul className="headings-unordered-list">
                       <li className="states-ut-list-item">
@@ -330,7 +327,7 @@ class Home extends Component {
                         </button>
                         <button
                           type="button"
-                          testid="descendingSort"
+                          testid="descendingSor"
                           className="descending-sort-button"
                           onClick={() => this.changeSortOrder('desc')} // Toggle sort order
                         >
@@ -348,31 +345,31 @@ class Home extends Component {
                         className="confirmed-list-item"
                         style={{width: '76px', marginLeft: '50px'}}
                       >
-                        Confirmed
+                        <p>Confirmed</p>
                       </li>
                       <li
                         className="confirmed-list-item"
                         style={{width: '46px', marginLeft: '24px'}}
                       >
-                        Active
+                        <p> Active</p>
                       </li>
                       <li
                         className="confirmed-list-item"
                         style={{width: '77px'}}
                       >
-                        Recovered
+                        <p>Recovered</p>
                       </li>
                       <li
                         className="confirmed-list-item"
                         style={{width: '71px'}}
                       >
-                        Deceased
+                        <p>Deceased</p>
                       </li>
                       <li
                         className="confirmed-list-item"
                         style={{width: '78px'}}
                       >
-                        Population
+                        <p>Population</p>
                       </li>
                     </ul>
                     <hr className="header-line" />
