@@ -55,7 +55,10 @@ class About extends Component {
 
     if (isLoading) {
       content = (
-        <div testid="aboutRouteLoader" className="about-route-loader-container">
+        <div
+          data-testid="aboutRouteLoader"
+          className="about-route-loader-container"
+        >
           <Loader type="Oval" color="#007bff" height={80} width={80} />
         </div>
       )
@@ -100,7 +103,7 @@ class About extends Component {
           <p className="about-route-description">
             COVID-19 vaccines be ready for distribution
           </p>
-          <ul testid="faqsUnorderedList" className="faqs-unordered-list">
+          <ul data-testid="faqsUnorderedList" className="faqs-unordered-list">
             {faqsList.map(eachFaq => (
               <li key={eachFaq.qno} style={{padding: '0px'}}>
                 <p className="question">{eachFaq.question}</p>

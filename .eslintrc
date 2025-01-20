@@ -24,7 +24,7 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
     "no-console": "off",
-    "react/prop-types": ["off", { "ignore": ["testid"] }],
+    "react/prop-types": ["off", {"ignore": ["testid"]}],
     "jsx-a11y/label-has-associated-control": [
       2,
       {

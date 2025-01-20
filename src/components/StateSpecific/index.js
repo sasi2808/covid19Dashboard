@@ -16,23 +16,7 @@ import './index.css'
 import Footer from '../Footer'
 
 class StateSpecific extends Component {
-  state = {
-    specificStateDetails: {},
-    districtsList: [],
-    selectedCaseDetailsCard: 'confirmed',
-    barChartTimelinesDataList: [],
-    timelinesDataList: [],
-    isStateDetailsLoading: true,
-    isTimeLinesDataLoading: true,
-    isHamburgerIconSelected: false,
-  }
-
-  componentDidMount() {
-    this.getSpecificStateDetails()
-    this.getTimelinesData()
-  }
-
-  districtsConvertObjectsDataIntoListItemsUsingForInMethod = districts => {
+  static districtsConvertObjectsDataIntoListItemsUsingForInMethod = districts => {
     const resultList = []
     const keyNames = Object.keys(districts)
 
@@ -55,6 +39,32 @@ class StateSpecific extends Component {
     return resultList
   }
 
+  static formattingBarChartCases = value => {
+    if (value >= 1000) {
+      if (value < 100000) {
+        return `${(value / 1000).toFixed(1)}K`
+      }
+      return `${(value / 100000).toFixed(1)}L`
+    }
+    return value
+  }
+
+  state = {
+    specificStateDetails: {},
+    districtsList: [],
+    selectedCaseDetailsCard: 'confirmed',
+    barChartTimelinesDataList: [],
+    timelinesDataList: [],
+    isStateDetailsLoading: true,
+    isTimeLinesDataLoading: true,
+    isHamburgerIconSelected: false,
+  }
+
+  componentDidMount() {
+    this.getSpecificStateDetails()
+    this.getTimelinesData()
+  }
+
   getSpecificStateDetails = async () => {
     const {match} = this.props
     const {params} = match
@@ -68,7 +78,7 @@ class StateSpecific extends Component {
     )
     const data = await response.json()
     const {total, meta, districts} = data[stateCode]
-    const districtsList = this.districtsConvertObjectsDataIntoListItemsUsingForInMethod(
+    const districtsList = StateSpecific.districtsConvertObjectsDataIntoListItemsUsingForInMethod(
       districts,
     )
     const confirmed = total.confirmed ? total.confirmed : 0
@@ -90,7 +100,7 @@ class StateSpecific extends Component {
     })
   }
 
-  getDaySuffix = day => {
+  static getDaySuffix = day => {
     if (day >= 11 && day <= 13) return 'th'
 
     switch (day % 10) {
@@ -103,6 +113,14 @@ class StateSpecific extends Component {
       default:
         return 'th'
     }
+  }
+
+  static getDateForBarChart = barDate => {
+    const date = new Date(barDate)
+    const day = date.getDate()
+    const options = {month: 'short'}
+    const month = date.toLocaleDateString('en-uk', options)
+    return `${day} ${month}`
   }
 
   timelinesDataConvertObjectsDataIntoListItemsUsingForInMethod = timelinesData => {
@@ -137,14 +155,6 @@ class StateSpecific extends Component {
     return resultList
   }
 
-  getDateForBarChart = barDate => {
-    const date = new Date(barDate)
-    const day = date.getDate()
-    const options = {month: 'short'}
-    const month = date.toLocaleDateString('en-uk', options)
-    return `${day} ${month}`
-  }
-
   getTimelinesData = async () => {
     const {match} = this.props
     const {params} = match
@@ -163,7 +173,7 @@ class StateSpecific extends Component {
       timelinesData,
     )
     const barChartTimelinesDataList = timelinesDataList.map(forEachDate => ({
-      date: this.getDateForBarChart(forEachDate.date),
+      date: StateSpecific.getDateForBarChart(forEachDate.date),
       confirmed: forEachDate.confirmed,
       active: forEachDate.active,
       recovered: forEachDate.recovered,
@@ -208,16 +218,6 @@ class StateSpecific extends Component {
       default:
         return null
     }
-  }
-
-  formattingBarChartCases = value => {
-    if (value >= 1000) {
-      if (value < 100000) {
-        return `${(value / 1000).toFixed(1)}K`
-      }
-      return `${(value / 100000).toFixed(1)}L`
-    }
-    return value
   }
 
   onClickingHamburgerIcon = () => {
@@ -274,7 +274,7 @@ class StateSpecific extends Component {
 
     const date = new Date(lastUpdatedDate)
     const day = date.getDate()
-    const dayWithSuffix = day + this.getDaySuffix(day)
+    const dayWithSuffix = day + StateSpecific.getDaySuffix(day)
     const options = {year: 'numeric', month: 'long'}
     const monthYear = date.toLocaleDateString('en-us', options)
     const monthYearList = monthYear.split(' ')
@@ -330,7 +330,7 @@ class StateSpecific extends Component {
             <div className="state-specific-content-container">
               {isStateDetailsLoading ? (
                 <div
-                  testid="stateDetailsLoader"
+                  data-testid="stateDetailsLoader"
                   className="state-details-loader-container"
                 >
                   <Loader type="Oval" color="#007bff" height={80} width={80} />
@@ -357,7 +357,7 @@ class StateSpecific extends Component {
                       }}
                     >
                       <div
-                        testid="stateSpecificConfirmedCasesContainer"
+                        data-testid="stateSpecificConfirmedCasesContainer"
                         className=" country-wide-confirmed-cases-card"
                       >
                         <p className="confirmed-heading">Confirmed</p>
@@ -378,7 +378,7 @@ class StateSpecific extends Component {
                       }}
                     >
                       <div
-                        testid="stateSpecificActiveCasesContainer"
+                        data-testid="stateSpecificActiveCasesContainer"
                         className=" country-wide-active-cases-card"
                       >
                         <p className="active-heading">Active</p>
@@ -399,7 +399,7 @@ class StateSpecific extends Component {
                       }}
                     >
                       <div
-                        testid="stateSpecificRecoveredCasesContainer"
+                        data-testid="stateSpecificRecoveredCasesContainer"
                         className=" country-wide-recovered-cases-card"
                       >
                         <p className="recovered-heading">Recovered</p>
@@ -420,7 +420,7 @@ class StateSpecific extends Component {
                       }}
                     >
                       <div
-                        testid="stateSpecificDeceasedCasesContainer"
+                        data-testid="stateSpecificDeceasedCasesContainer"
                         className=" country-wide-deceased-cases-card"
                       >
                         <p className="deceased-heading">Deceased</p>
@@ -440,7 +440,7 @@ class StateSpecific extends Component {
                     Top Districts
                   </h1>
                   <ul
-                    testid="topDistrictsUnorderedList"
+                    data-testid="topDistrictsUnorderedList"
                     className="top-districts-unordered-list-container"
                   >
                     {topDistricts.map(district => (
@@ -492,7 +492,7 @@ class StateSpecific extends Component {
                           }}
                           offset={10}
                           formatter={value =>
-                            this.formattingBarChartCases(value)
+                            StateSpecific.formattingBarChartCases(value)
                           }
                         />
                       </Bar>
@@ -535,7 +535,7 @@ class StateSpecific extends Component {
                           }}
                           offset={10}
                           formatter={value =>
-                            this.formattingBarChartCases(value)
+                            StateSpecific.formattingBarChartCases(value)
                           }
                         />
                       </Bar>
@@ -549,7 +549,7 @@ class StateSpecific extends Component {
                 </h1>
                 {isTimeLinesDataLoading ? (
                   <div
-                    testid="timelinesDataLoader"
+                    data-testid="timelinesDataLoader"
                     className="time-lines-loader-container"
                   >
                     <Loader
@@ -560,7 +560,7 @@ class StateSpecific extends Component {
                     />
                   </div>
                 ) : (
-                  <div testid="lineChartsContainer">
+                  <div data-testid="lineChartsContainer">
                     <div
                       className="confirmed-cases-line-chart-container"
                       style={{backgroundColor: '#331427', marginTop: '28px'}}

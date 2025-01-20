@@ -178,7 +178,10 @@ class Home extends Component {
         <Header onClickingHamburgerIcon={this.onClickingHamburgerIcon} />
 
         {isLoading ? (
-          <div testid="homeRouteLoader" className="home-route-loader-container">
+          <div
+            data-testid="homeRouteLoader"
+            className="home-route-loader-container"
+          >
             <Loader type="Oval" color="#007bff" height={80} width={80} />
           </div>
         ) : (
@@ -226,7 +229,7 @@ class Home extends Component {
                 </div>
                 {filteredStates.length > 0 && (
                   <ul
-                    testid="searchResultsUnorderedList"
+                    data-testid="searchResultsUnorderedList"
                     className="search-results-unordered-list"
                   >
                     {filteredStates.map(state => (
@@ -248,7 +251,7 @@ class Home extends Component {
                 )}
                 <div className="cases-details-container">
                   <div
-                    testid="countryWideConfirmedCases"
+                    data-testid="countryWideConfirmedCases"
                     className="country-wide-confirmed-cases-card"
                   >
                     <p className="confirmed-heading">Confirmed</p>
@@ -260,7 +263,7 @@ class Home extends Component {
                     <p className="confirmed-cases-count">{this.totalCases()}</p>
                   </div>
                   <div
-                    testid="countryWideActiveCases"
+                    data-testid="countryWideActiveCases"
                     className="country-wide-active-cases-card"
                   >
                     <p className="active-heading">Active</p>
@@ -274,7 +277,7 @@ class Home extends Component {
                     </p>
                   </div>
                   <div
-                    testid="countryWideRecoveredCases"
+                    data-testid="countryWideRecoveredCases"
                     className="country-wide-recovered-cases-card"
                   >
                     <p className="recovered-heading">Recovered</p>
@@ -288,7 +291,7 @@ class Home extends Component {
                     </p>
                   </div>
                   <div
-                    testid="countryWideDeceasedCases"
+                    data-testid="countryWideDeceasedCases"
                     className="country-wide-deceased-cases-card"
                   >
                     <p className="deceased-heading">Deceased</p>
@@ -305,14 +308,14 @@ class Home extends Component {
                 <div className="scrollable-container">
                   <div
                     className="state-wise-covid-data-table"
-                    testid="stateWiseCovidDataTable"
+                    data-testid="stateWiseCovidDataTable"
                   >
                     <ul className="headings-unordered-list">
                       <li className="states-ut-list-item">
                         States/UT
                         <button
                           type="button"
-                          testid="ascendingSort"
+                          data-testid="ascendingSort"
                           className="ascending-sort-button"
                           onClick={() => this.changeSortOrder('asc')} // Toggle sort order
                         >
@@ -327,7 +330,7 @@ class Home extends Component {
                         </button>
                         <button
                           type="button"
-                          testid="descendingSor"
+                          data-testid="descendingSor"
                           className="descending-sort-button"
                           onClick={() => this.changeSortOrder('desc')} // Toggle sort order
                         >

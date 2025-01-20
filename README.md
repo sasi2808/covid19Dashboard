@@ -1,13 +1,15 @@
 # Covid19 Dashboard
 
 ## Project Description
-The **Covid19 Dashboard** is a modern web application designed to provide comprehensive and real-time visualization of global and country-specific COVID-19 statistics. The project leverages advanced React concepts, including class components, lifecycle methods, and routing, to deliver an interactive and user-friendly experience. Built with a focus on responsiveness and accessibility, the dashboard ensures smooth functionality across various devices and screen sizes. 
+
+The **Covid19 Dashboard** is a modern web application designed to provide comprehensive and real-time visualization of global and country-specific COVID-19 statistics. The project leverages advanced React concepts, including class components, lifecycle methods, and routing, to deliver an interactive and user-friendly experience. Built with a focus on responsiveness and accessibility, the dashboard ensures smooth functionality across various devices and screen sizes.
 
 This project serves as a practical demonstration of applying React concepts in a real-world scenario while emphasizing best practices in frontend development.
 
 ---
 
 ## Features
+
 - **Real-Time Data Fetching**: Retrieves up-to-date COVID-19 statistics from an internal server using class components.
 - **Dynamic Updates**: Utilizes React lifecycle methods to handle data fetching and state management effectively.
 - **Multi-Page Navigation**: Implements React Router for seamless transitions between pages like Home, Country Statistics, and About.
@@ -19,6 +21,7 @@ This project serves as a practical demonstration of applying React concepts in a
 ---
 
 ## Tools and Technologies
+
 - **React.js**: The core library for building dynamic user interfaces.
 - **JavaScript (ES6+)**: For implementing application logic and functionality.
 - **CSS3**: Ensures attractive and responsive styling with a focus on usability.
