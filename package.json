@@ -25,6 +25,7 @@
     "recharts": "2.15.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "7.26.5",
     "eslint": "8.57.1",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "8.1.0",
