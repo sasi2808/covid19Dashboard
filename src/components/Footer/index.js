@@ -1,8 +1,8 @@
-import {VscGithubAlt} from 'react-icons/vsc'
-import {FiInstagram} from 'react-icons/fi'
-import {FaTwitter} from 'react-icons/fa'
+import {VscGithubAlt} from 'react-icons/vsc';
+import {FiInstagram} from 'react-icons/fi';
+import {FaTwitter} from 'react-icons/fa';
 
-import './index.css'
+import './index.css';
 
 const Footer = () => (
   <div className="footer-container">
@@ -18,5 +18,5 @@ const Footer = () => (
       <FaTwitter className="footer-icon" />
     </div>
   </div>
-)
-export default Footer
+);
+export default Footer;

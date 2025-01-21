@@ -1,57 +1,59 @@
-import {Component} from 'react'
+import {Component} from 'react';
 
-import Loader from 'react-loader-spinner'
-import Header from '../Header'
-import Footer from '../Footer'
+import parse from 'html-react-parser';
 
-import './index.css'
+import Loader from 'react-loader-spinner';
+import Header from '../Header';
+import Footer from '../Footer';
+
+import './index.css';
 
 class About extends Component {
   state = {
     faqsList: [],
     isLoading: true,
     isHamburgerIconSelected: false,
-  }
+  };
 
   componentDidMount() {
-    this.getFaqs()
+    this.getFaqs();
   }
 
   getFaqs = async () => {
-    const response = await fetch('https://apis.ccbp.in/covid19-faqs')
-    const aboutRouteApiCallData = await response.json()
+    const response = await fetch('https://apis.ccbp.in/covid19-faqs');
+    const aboutRouteApiCallData = await response.json();
 
-    this.setState({faqsList: aboutRouteApiCallData.faq, isLoading: false})
-  }
+    this.setState({faqsList: aboutRouteApiCallData.faq, isLoading: false});
+  };
 
   onClickingHamburgerIcon = () => {
     this.setState(prevState => ({
       isHamburgerIconSelected: !prevState.isHamburgerIconSelected,
-    }))
-  }
+    }));
+  };
 
   onClickHomeHeaderButton = () => {
-    const {history} = this.props
-    history.push('/')
+    const {history} = this.props;
+    history.push('/');
 
-    this.setState({isHamburgerIconSelected: false})
-  }
+    this.setState({isHamburgerIconSelected: false});
+  };
 
   onClickAboutHeaderButton = () => {
-    const {history} = this.props
-    history.push('/about')
+    const {history} = this.props;
+    history.push('/about');
 
-    this.setState({isHamburgerIconSelected: false})
-  }
+    this.setState({isHamburgerIconSelected: false});
+  };
 
   onClickWrongIcon = () => {
-    this.setState({isHamburgerIconSelected: false})
-  }
+    this.setState({isHamburgerIconSelected: false});
+  };
 
   render() {
-    const {faqsList, isLoading, isHamburgerIconSelected} = this.state
+    const {faqsList, isLoading, isHamburgerIconSelected} = this.state;
 
-    let content
+    let content;
 
     if (isLoading) {
       content = (
@@ -61,7 +63,7 @@ class About extends Component {
         >
           <Loader type="Oval" color="#007bff" height={80} width={80} />
         </div>
-      )
+      );
     } else if (isHamburgerIconSelected) {
       content = (
         <div className="mobile-view-header-drop-down">
@@ -92,7 +94,7 @@ class About extends Component {
             />
           </button>
         </div>
-      )
+      );
     } else {
       content = (
         <div className="about-content-container">
@@ -107,7 +109,7 @@ class About extends Component {
             {faqsList.map(eachFaq => (
               <li key={eachFaq.qno} style={{padding: '0px'}}>
                 <p className="question">{eachFaq.question}</p>
-                <p className="answer">{eachFaq.answer}</p>
+                <p className="answer">{parse(eachFaq.answer)}</p>
               </li>
             ))}
           </ul>
@@ -121,7 +123,7 @@ class About extends Component {
             <Footer />
           </div>
         </div>
-      )
+      );
     }
 
     return (
@@ -129,8 +131,8 @@ class About extends Component {
         <Header onClickingHamburgerIcon={this.onClickingHamburgerIcon} />
         {content}
       </div>
-    )
+    );
   }
 }
 
-export default About
+export default About;

@@ -1,13 +1,13 @@
-import {Link, NavLink, withRouter} from 'react-router-dom'
+import {Link, NavLink, withRouter} from 'react-router-dom';
 
-import './index.css'
+import './index.css';
 
 const Header = props => {
-  const {onClickingHamburgerIcon} = props
+  const {onClickingHamburgerIcon} = props;
 
   const toggleHamburgerIcon = () => {
-    onClickingHamburgerIcon()
-  }
+    onClickingHamburgerIcon();
+  };
 
   return (
     <nav className="nav-container">
@@ -50,7 +50,7 @@ const Header = props => {
         </NavLink>
       </ul>
     </nav>
-  )
-}
+  );
+};
 
-export default withRouter(Header)
+export default withRouter(Header);

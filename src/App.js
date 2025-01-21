@@ -1,11 +1,11 @@
-import {Switch, Route, Redirect} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom';
 
-import Home from './components/Home'
-import StateSpecific from './components/StateSpecific'
-import About from './components/About'
-import NotFound from './components/NotFound'
+import Home from './components/Home';
+import StateSpecific from './components/StateSpecific';
+import About from './components/About';
+import NotFound from './components/NotFound';
 
-import './App.css'
+import './App.css';
 
 const statesList = [
   {
@@ -152,12 +152,12 @@ const statesList = [
     state_code: 'WB',
     state_name: 'West Bengal',
   },
-]
+];
 
 const updatedStatesList = statesList.map(eachObject => ({
   stateCode: eachObject.state_code,
   stateName: eachObject.state_name,
-}))
+}));
 
 const App = () => (
   <Switch>
@@ -178,6 +178,6 @@ const App = () => (
     <Route exact path="/not-found" component={NotFound} />
     <Redirect to="/not-found" />
   </Switch>
-)
+);
 
-export default App
+export default App;

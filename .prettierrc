@@ -1,7 +1,6 @@
 {
   "arrowParens": "avoid",
   "bracketSpacing": false,
-  "endOfLine": "lf",
   "htmlWhitespaceSensitivity": "css",
   "insertPragma": false,
   "jsxBracketSameLine": false,
@@ -18,9 +17,10 @@
   "proseWrap": "always",
   "quoteProps": "as-needed",
   "requirePragma": false,
-  "semi": false,
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "all",
-  "useTabs": false
+  "useTabs": false,
+  "semi": true,
+  "endOfLine": "lf"
 }

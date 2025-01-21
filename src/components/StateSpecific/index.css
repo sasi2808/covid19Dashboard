@@ -34,7 +34,7 @@
 @media screen and (max-width: 768px) {
   .state-name-tested-count-container {
     margin-top: 10px;
-    width: 100%;
+    width: 89%;
   }
 }
 
@@ -54,7 +54,7 @@
   padding: 10.54px 21.08px 10.54px 21.08px;
   gap: 0px;
   border-radius: 32px;
-  opacity: 0px;
+  opacity: 1;
   margin-bottom: 0px;
 }
 @media screen and (max-width: 768px) {
@@ -71,7 +71,7 @@
     top: 80px;
     left: 24px;
     padding: 5.27px 10.54px 5.27px 10.54px;
-    opacity: 0px;
+    opacity: 1;
   }
 }
 .last-updated-date-text {
@@ -112,7 +112,7 @@
     font-size: 12px;
     font-weight: 500;
     line-height: 16px;
-    text-align: left;
+    text-align: right;
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
   }
@@ -240,8 +240,6 @@
   color: #94a3b8;
 }
 .bar-chart-container {
-  width: 80%;
-  margin-left: 50px;
   margin-top: 80px;
 }
 
@@ -272,9 +270,8 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-
     justify-content: center;
-    padding: 0px;
+    padding: 1;
   }
 }
 .daily-spread-trends-heading {
@@ -290,7 +287,7 @@
   top: 1543px;
   left: 150px;
   gap: 0px;
-  opacity: 0px;
+  opacity: 1;
 }
 @media screen and (max-width: 768px) {
   .daily-spread-trends-heading {
@@ -330,7 +327,6 @@
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
   color: #ff073a;
-
   text-align: right;
   margin-right: 32px;
   padding-top: 20px;

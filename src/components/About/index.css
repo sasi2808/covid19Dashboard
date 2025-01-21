@@ -118,6 +118,7 @@
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
   color: #007bff;
+  text-decoration: none;
 }
 @media screen and (max-width: 768px) {
   .answer {
@@ -136,4 +137,11 @@
   align-items: center;
   height: 100vh;
   background-color: #161625;
+}
+a {
+  color: crimson;
+  text-decoration: none; /* Optional: Remove underline */
+}
+a:hover {
+  text-decoration: underline; /* Optional: Add underline on hover */
 }

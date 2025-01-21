@@ -1,15 +1,15 @@
-import {Component} from 'react'
-import {Link} from 'react-router-dom'
-import {BsSearch} from 'react-icons/bs'
-import {FcGenericSortingAsc, FcGenericSortingDesc} from 'react-icons/fc'
-import {BiChevronRightSquare} from 'react-icons/bi'
+import {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {BsSearch} from 'react-icons/bs';
+import {FcGenericSortingAsc, FcGenericSortingDesc} from 'react-icons/fc';
+import {BiChevronRightSquare} from 'react-icons/bi';
 
-import Loader from 'react-loader-spinner'
+import Loader from 'react-loader-spinner';
 
-import Header from '../Header'
-import Footer from '../Footer'
+import Header from '../Header';
+import Footer from '../Footer';
 
-import './index.css'
+import './index.css';
 
 class Home extends Component {
   state = {
@@ -18,31 +18,31 @@ class Home extends Component {
     sortOrder: 'asc',
     isLoading: true,
     isHamburgerIconSelected: false,
-  }
+  };
 
   componentDidMount() {
-    this.getStateWiseData()
+    this.getStateWiseData();
   }
 
   convertObjectsDataIntoListItemsUsingForInMethod = data => {
-    const resultList = []
-    const {statesList} = this.props
-    const keyNames = Object.keys(data)
+    const resultList = [];
+    const {statesList} = this.props;
+    const keyNames = Object.keys(data);
 
     keyNames.forEach(keyName => {
       if (data[keyName]) {
-        const {total} = data[keyName]
-        const confirmed = total.confirmed ? total.confirmed : 0
-        const deceased = total.deceased ? total.deceased : 0
-        const recovered = total.recovered ? total.recovered : 0
+        const {total} = data[keyName];
+        const confirmed = total.confirmed ? total.confirmed : 0;
+        const deceased = total.deceased ? total.deceased : 0;
+        const recovered = total.recovered ? total.recovered : 0;
         const population = data[keyName].meta.population
           ? data[keyName].meta.population
-          : 0
+          : 0;
         const state = statesList.find(
           eachState => eachState.stateCode === keyName,
-        )
+        );
 
-        const name = state ? state.stateName : ''
+        const name = state ? state.stateName : '';
         resultList.push({
           stateCode: keyName,
           name,
@@ -51,111 +51,111 @@ class Home extends Component {
           recovered,
           population,
           active: confirmed - (deceased + recovered),
-        })
+        });
       }
-    })
-    return resultList
-  }
+    });
+    return resultList;
+  };
 
   getStateWiseData = async () => {
-    const url = 'https://apis.ccbp.in/covid19-state-wise-data'
-    const response = await fetch(url)
-    const data = await response.json()
+    const url = 'https://apis.ccbp.in/covid19-state-wise-data';
+    const response = await fetch(url);
+    const data = await response.json();
     const listFormattedDataUsingForInMethod = this.convertObjectsDataIntoListItemsUsingForInMethod(
       data,
-    )
+    );
 
     const filteredListFormattedDataUsingForInMethod = listFormattedDataUsingForInMethod.filter(
       eachState => eachState.name !== '',
-    )
+    );
 
     this.setState({
       stateWiseCasesDetailsList: filteredListFormattedDataUsingForInMethod,
       isLoading: false,
-    })
-  }
+    });
+  };
 
   onChangeSearchInput = event => {
-    this.setState({searchInput: event.target.value})
-  }
+    this.setState({searchInput: event.target.value});
+  };
 
   getFilteredStates = () => {
-    const {stateWiseCasesDetailsList, searchInput} = this.state
+    const {stateWiseCasesDetailsList, searchInput} = this.state;
     if (searchInput === '') {
-      return []
+      return [];
     }
     return stateWiseCasesDetailsList.filter(state =>
       state.name.toLowerCase().includes(searchInput.toLowerCase()),
-    )
-  }
+    );
+  };
 
   totalCases = () => {
-    const {stateWiseCasesDetailsList} = this.state
-    let totalCases = 0
+    const {stateWiseCasesDetailsList} = this.state;
+    let totalCases = 0;
 
     stateWiseCasesDetailsList.forEach(state => {
-      totalCases += state.confirmed
-    })
-    return totalCases
-  }
+      totalCases += state.confirmed;
+    });
+    return totalCases;
+  };
 
   totalActiveCases = () => {
-    const {stateWiseCasesDetailsList} = this.state
-    let totalActiveCases = 0
+    const {stateWiseCasesDetailsList} = this.state;
+    let totalActiveCases = 0;
 
     stateWiseCasesDetailsList.forEach(state => {
-      totalActiveCases += state.active
-    })
-    return totalActiveCases
-  }
+      totalActiveCases += state.active;
+    });
+    return totalActiveCases;
+  };
 
   totalRecoveredCases = () => {
-    const {stateWiseCasesDetailsList} = this.state
-    let totalRecoveredCases = 0
+    const {stateWiseCasesDetailsList} = this.state;
+    let totalRecoveredCases = 0;
 
     stateWiseCasesDetailsList.forEach(state => {
-      totalRecoveredCases += state.recovered
-    })
-    return totalRecoveredCases
-  }
+      totalRecoveredCases += state.recovered;
+    });
+    return totalRecoveredCases;
+  };
 
   totalDeceasedCases = () => {
-    const {stateWiseCasesDetailsList} = this.state
-    let totalDeceasedCases = 0
+    const {stateWiseCasesDetailsList} = this.state;
+    let totalDeceasedCases = 0;
 
     stateWiseCasesDetailsList.forEach(state => {
-      totalDeceasedCases += state.deceased
-    })
-    return totalDeceasedCases
-  }
+      totalDeceasedCases += state.deceased;
+    });
+    return totalDeceasedCases;
+  };
 
   changeSortOrder = order => {
-    this.setState({sortOrder: order})
-  }
+    this.setState({sortOrder: order});
+  };
 
   onClickingHamburgerIcon = () => {
     this.setState(prevState => ({
       isHamburgerIconSelected: !prevState.isHamburgerIconSelected,
-    }))
-  }
+    }));
+  };
 
   onClickHomeHeaderButton = () => {
-    const {history} = this.props
-    history.push('/')
+    const {history} = this.props;
+    history.push('/');
 
-    this.setState({isHamburgerIconSelected: false})
-  }
+    this.setState({isHamburgerIconSelected: false});
+  };
 
   onClickAboutHeaderButton = () => {
-    const {history} = this.props
-    history.push('/about')
+    const {history} = this.props;
+    history.push('/about');
 
-    this.setState({isHamburgerIconSelected: false})
-  }
+    this.setState({isHamburgerIconSelected: false});
+  };
 
   onClickWrongIcon = () => {
-    this.setState({isHamburgerIconSelected: false})
-  }
+    this.setState({isHamburgerIconSelected: false});
+  };
 
   render() {
     const {
@@ -164,14 +164,14 @@ class Home extends Component {
       sortOrder,
       isLoading,
       isHamburgerIconSelected,
-    } = this.state
+    } = this.state;
 
-    const filteredStates = this.getFilteredStates()
+    const filteredStates = this.getFilteredStates();
 
     const sortedStates = [...stateWiseCasesDetailsList].sort((a, b) => {
-      const comparison = a.name.localeCompare(b.name)
-      return sortOrder === 'asc' ? comparison : -comparison
-    })
+      const comparison = a.name.localeCompare(b.name);
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
 
     return (
       <div className="app-container">
@@ -414,8 +414,8 @@ class Home extends Component {
           </div>
         )}
       </div>
-    )
+    );
   }
 }
 
-export default Home
+export default Home;

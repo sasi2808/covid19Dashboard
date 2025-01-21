@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import {Component} from 'react';
 import {
   BarChart,
   LabelList,
@@ -8,24 +8,25 @@ import {
   YAxis,
   Tooltip,
   Line,
-} from 'recharts'
+  ResponsiveContainer,
+} from 'recharts';
 
-import Loader from 'react-loader-spinner'
-import Header from '../Header'
-import './index.css'
-import Footer from '../Footer'
+import Loader from 'react-loader-spinner';
+import Header from '../Header';
+import './index.css';
+import Footer from '../Footer';
 
 class StateSpecific extends Component {
   static districtsConvertObjectsDataIntoListItemsUsingForInMethod = districts => {
-    const resultList = []
-    const keyNames = Object.keys(districts)
+    const resultList = [];
+    const keyNames = Object.keys(districts);
 
     keyNames.forEach(keyName => {
       if (districts[keyName]) {
-        const {total} = districts[keyName]
-        const confirmed = total.confirmed ? total.confirmed : 0
-        const deceased = total.deceased ? total.deceased : 0
-        const recovered = total.recovered ? total.recovered : 0
+        const {total} = districts[keyName];
+        const confirmed = total.confirmed ? total.confirmed : 0;
+        const deceased = total.deceased ? total.deceased : 0;
+        const recovered = total.recovered ? total.recovered : 0;
 
         resultList.push({
           districtName: keyName,
@@ -33,21 +34,21 @@ class StateSpecific extends Component {
           deceased,
           recovered,
           active: confirmed - (deceased + recovered),
-        })
+        });
       }
-    })
-    return resultList
-  }
+    });
+    return resultList;
+  };
 
   static formattingBarChartCases = value => {
     if (value >= 1000) {
       if (value < 100000) {
-        return `${(value / 1000).toFixed(1)}K`
+        return `${(value / 1000).toFixed(1)}K`;
       }
-      return `${(value / 100000).toFixed(1)}L`
+      return `${(value / 100000).toFixed(1)}L`;
     }
-    return value
-  }
+    return value;
+  };
 
   state = {
     specificStateDetails: {},
@@ -58,33 +59,33 @@ class StateSpecific extends Component {
     isStateDetailsLoading: true,
     isTimeLinesDataLoading: true,
     isHamburgerIconSelected: false,
-  }
+  };
 
   componentDidMount() {
-    this.getSpecificStateDetails()
-    this.getTimelinesData()
+    this.getSpecificStateDetails();
+    this.getTimelinesData();
   }
 
   getSpecificStateDetails = async () => {
-    const {match} = this.props
-    const {params} = match
-    const {stateCode} = params
+    const {match} = this.props;
+    const {params} = match;
+    const {stateCode} = params;
     const options = {
       method: 'GET',
-    }
+    };
     const response = await fetch(
       'https://apis.ccbp.in/covid19-state-wise-data',
       options,
-    )
-    const data = await response.json()
-    const {total, meta, districts} = data[stateCode]
+    );
+    const data = await response.json();
+    const {total, meta, districts} = data[stateCode];
     const districtsList = StateSpecific.districtsConvertObjectsDataIntoListItemsUsingForInMethod(
       districts,
-    )
-    const confirmed = total.confirmed ? total.confirmed : 0
-    const deceased = total.deceased ? total.deceased : 0
-    const recovered = total.recovered ? total.recovered : 0
-    const active = confirmed - (recovered + deceased)
+    );
+    const confirmed = total.confirmed ? total.confirmed : 0;
+    const deceased = total.deceased ? total.deceased : 0;
+    const recovered = total.recovered ? total.recovered : 0;
+    const active = confirmed - (recovered + deceased);
     const specificStateDetails = {
       lastUpdatedDate: meta.last_updated,
       confirmed,
@@ -92,54 +93,54 @@ class StateSpecific extends Component {
       deceased,
       tested: data[stateCode].total.tested,
       active,
-    }
+    };
     this.setState({
       specificStateDetails,
       districtsList,
       isStateDetailsLoading: false,
-    })
-  }
+    });
+  };
 
   static getDaySuffix = day => {
-    if (day >= 11 && day <= 13) return 'th'
+    if (day >= 11 && day <= 13) return 'th';
 
     switch (day % 10) {
       case 1:
-        return 'st'
+        return 'st';
       case 2:
-        return 'nd'
+        return 'nd';
       case 3:
-        return 'rd'
+        return 'rd';
       default:
-        return 'th'
+        return 'th';
     }
-  }
+  };
 
   static getDateForBarChart = barDate => {
-    const date = new Date(barDate)
-    const day = date.getDate()
-    const options = {month: 'short'}
-    const month = date.toLocaleDateString('en-uk', options)
-    return `${day} ${month}`
-  }
+    const date = new Date(barDate);
+    const day = date.getDate();
+    const options = {month: 'short'};
+    const month = date.toLocaleDateString('en-uk', options);
+    return `${day} ${month}`;
+  };
 
   timelinesDataConvertObjectsDataIntoListItemsUsingForInMethod = timelinesData => {
-    const resultList = []
+    const resultList = [];
 
-    const {match} = this.props
-    const {params} = match
-    const {stateCode} = params
+    const {match} = this.props;
+    const {params} = match;
+    const {stateCode} = params;
 
-    const keyNames = Object.keys(timelinesData[stateCode].dates)
+    const keyNames = Object.keys(timelinesData[stateCode].dates);
 
     keyNames.forEach(eachKey => {
       if (timelinesData[stateCode].dates[eachKey]) {
-        const {total} = timelinesData[stateCode].dates[eachKey]
-        const confirmed = total.confirmed ? total.confirmed : 0
-        const deceased = total.deceased ? total.deceased : 0
-        const recovered = total.recovered ? total.recovered : 0
-        const active = confirmed - (recovered + deceased)
-        const tested = total.tested ? total.tested : 0
+        const {total} = timelinesData[stateCode].dates[eachKey];
+        const confirmed = total.confirmed ? total.confirmed : 0;
+        const deceased = total.deceased ? total.deceased : 0;
+        const recovered = total.recovered ? total.recovered : 0;
+        const active = confirmed - (recovered + deceased);
+        const tested = total.tested ? total.tested : 0;
 
         resultList.push({
           date: eachKey,
@@ -148,101 +149,101 @@ class StateSpecific extends Component {
           deceased,
           active,
           tested,
-        })
+        });
       }
-    })
+    });
 
-    return resultList
-  }
+    return resultList;
+  };
 
   getTimelinesData = async () => {
-    const {match} = this.props
-    const {params} = match
-    const {stateCode} = params
+    const {match} = this.props;
+    const {params} = match;
+    const {stateCode} = params;
 
     const options = {
       method: 'GET',
-    }
+    };
     const response = await fetch(
       `https://apis.ccbp.in/covid19-timelines-data/${stateCode}`,
       options,
-    )
-    const timelinesData = await response.json()
+    );
+    const timelinesData = await response.json();
 
     const timelinesDataList = this.timelinesDataConvertObjectsDataIntoListItemsUsingForInMethod(
       timelinesData,
-    )
+    );
     const barChartTimelinesDataList = timelinesDataList.map(forEachDate => ({
       date: StateSpecific.getDateForBarChart(forEachDate.date),
       confirmed: forEachDate.confirmed,
       active: forEachDate.active,
       recovered: forEachDate.recovered,
       deceased: forEachDate.deceased,
-    }))
+    }));
 
     this.setState({
       timelinesDataList,
       barChartTimelinesDataList: barChartTimelinesDataList.slice(-10),
       isTimeLinesDataLoading: false,
-    })
-  }
+    });
+  };
 
   onClickConfirmedCasesCard = () => {
-    this.setState({selectedCaseDetailsCard: 'confirmed'})
-  }
+    this.setState({selectedCaseDetailsCard: 'confirmed'});
+  };
 
   onClickActiveCasesCard = () => {
-    this.setState({selectedCaseDetailsCard: 'active'})
-  }
+    this.setState({selectedCaseDetailsCard: 'active'});
+  };
 
   onClickRecoveredCasesCard = () => {
-    this.setState({selectedCaseDetailsCard: 'recovered'})
-  }
+    this.setState({selectedCaseDetailsCard: 'recovered'});
+  };
 
   onClickDeceasedCasesCard = () => {
-    this.setState({selectedCaseDetailsCard: 'deceased'})
-  }
+    this.setState({selectedCaseDetailsCard: 'deceased'});
+  };
 
   topDistrictsColor = () => {
-    const {selectedCaseDetailsCard} = this.state
+    const {selectedCaseDetailsCard} = this.state;
 
     switch (selectedCaseDetailsCard) {
       case 'confirmed':
-        return '#FF073A'
+        return '#FF073A';
       case 'active':
-        return '#007BFF'
+        return '#007BFF';
       case 'recovered':
-        return '#28A745'
+        return '#28A745';
       case 'deceased':
-        return '#6C757D'
+        return '#6C757D';
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   onClickingHamburgerIcon = () => {
     this.setState(prevState => ({
       isHamburgerIconSelected: !prevState.isHamburgerIconSelected,
-    }))
-  }
+    }));
+  };
 
   onClickHomeHeaderButton = () => {
-    const {history} = this.props
-    history.push('/')
+    const {history} = this.props;
+    history.push('/');
 
-    this.setState({isHamburgerIconSelected: false})
-  }
+    this.setState({isHamburgerIconSelected: false});
+  };
 
   onClickAboutHeaderButton = () => {
-    const {history} = this.props
-    history.push('/about')
+    const {history} = this.props;
+    history.push('/about');
 
-    this.setState({isHamburgerIconSelected: false})
-  }
+    this.setState({isHamburgerIconSelected: false});
+  };
 
   onClickWrongIcon = () => {
-    this.setState({isHamburgerIconSelected: false})
-  }
+    this.setState({isHamburgerIconSelected: false});
+  };
 
   render() {
     const {
@@ -254,7 +255,7 @@ class StateSpecific extends Component {
       isStateDetailsLoading,
       isTimeLinesDataLoading,
       isHamburgerIconSelected,
-    } = this.state
+    } = this.state;
 
     const {
       lastUpdatedDate,
@@ -263,35 +264,35 @@ class StateSpecific extends Component {
       active,
       deceased,
       recovered,
-    } = specificStateDetails
+    } = specificStateDetails;
 
-    const {statesList, match} = this.props
-    const {params} = match
-    const {stateCode} = params
+    const {statesList, match} = this.props;
+    const {params} = match;
+    const {stateCode} = params;
     const {stateName} = statesList.find(
       eachState => eachState.stateCode === stateCode,
-    )
+    );
 
-    const date = new Date(lastUpdatedDate)
-    const day = date.getDate()
-    const dayWithSuffix = day + StateSpecific.getDaySuffix(day)
-    const options = {year: 'numeric', month: 'long'}
-    const monthYear = date.toLocaleDateString('en-us', options)
-    const monthYearList = monthYear.split(' ')
-    const finalString = `Last update on ${monthYearList[0]} ${dayWithSuffix} ${monthYearList[1]}.`
+    const date = new Date(lastUpdatedDate);
+    const day = date.getDate();
+    const dayWithSuffix = day + StateSpecific.getDaySuffix(day);
+    const options = {year: 'numeric', month: 'long'};
+    const monthYear = date.toLocaleDateString('en-us', options);
+    const monthYearList = monthYear.split(' ');
+    const finalString = `Last update on ${monthYearList[0]} ${dayWithSuffix} ${monthYearList[1]}.`;
 
     const confirmedCardBackgroundColor =
-      selectedCaseDetailsCard === 'confirmed' ? '#331427' : 'transparent'
+      selectedCaseDetailsCard === 'confirmed' ? '#331427' : 'transparent';
     const activeCardBackgroundColor =
-      selectedCaseDetailsCard === 'active' ? '#132240' : 'transparent'
+      selectedCaseDetailsCard === 'active' ? '#132240' : 'transparent';
     const recoveredCardBackgroundColor =
-      selectedCaseDetailsCard === 'recovered' ? '#182829' : 'transparent'
+      selectedCaseDetailsCard === 'recovered' ? '#182829' : 'transparent';
     const deceasedCardBackgroundColor =
-      selectedCaseDetailsCard === 'deceased' ? '#212230' : 'transparent'
+      selectedCaseDetailsCard === 'deceased' ? '#212230' : 'transparent';
 
     const topDistricts = districtsList.sort(
       (a, b) => b[selectedCaseDetailsCard] - a[selectedCaseDetailsCard],
-    )
+    );
 
     return (
       <div className="state-specific-container">
@@ -455,10 +456,12 @@ class StateSpecific extends Component {
                       </li>
                     ))}
                   </ul>
-                  <div className="bar-chart-container">
+                  <ResponsiveContainer
+                    className="bar-chart-container"
+                    width="90%"
+                    height={400}
+                  >
                     <BarChart
-                      width={1000}
-                      height={400}
                       data={barChartTimelinesDataList}
                       margin={{top: 10, right: 30, left: 20, bottom: 25}}
                       barGap={50}
@@ -497,11 +500,13 @@ class StateSpecific extends Component {
                         />
                       </Bar>
                     </BarChart>
-                  </div>
-                  <div className="mini-bar-chart-container">
+                  </ResponsiveContainer>
+                  <ResponsiveContainer
+                    className="mini-bar-chart-container"
+                    width="90%"
+                    height={350}
+                  >
                     <BarChart
-                      width={307}
-                      height={160}
                       data={barChartTimelinesDataList}
                       margin={{top: 10, right: 30, left: 20, bottom: 25}}
                       barGap={13}
@@ -509,7 +514,7 @@ class StateSpecific extends Component {
                       <Bar
                         dataKey={selectedCaseDetailsCard}
                         fill={this.topDistrictsColor()}
-                        barSize={19}
+                        barSize={30}
                         radius={[8, 8, 0, 0]}
                       >
                         <LabelList
@@ -540,7 +545,7 @@ class StateSpecific extends Component {
                         />
                       </Bar>
                     </BarChart>
-                  </div>
+                  </ResponsiveContainer>
                 </>
               )}
               <div className="daily-spread-trends-line-charts-container">
@@ -568,58 +573,57 @@ class StateSpecific extends Component {
                       <h1 className="line-chart-confirmed-heading">
                         Confirmed
                       </h1>
+                      <ResponsiveContainer width="90%" height={290}>
+                        <LineChart
+                          data={timelinesDataList}
+                          margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                        >
+                          <XAxis
+                            dataKey="date"
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '13px',
+                              fontWeight: '450',
+                              lineHeight: '24px',
+                              fill: '#FF073A',
+                            }}
+                            tickLine={{stroke: '#FF073A', strokeWidth: 1}}
+                            axisLine={{stroke: '#FF073A', strokeWidth: 1}}
+                            tickMargin={10}
+                            tickSize={8}
+                            ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                          />
+                          <YAxis
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '13px',
+                              fontWeight: '450',
+                              lineHeight: '24px',
+                              fill: '#FF073A',
+                            }}
+                            tickLine={{stroke: '#FF073A', strokeWidth: 1}}
+                            axisLine={{stroke: '#FF073A', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={8}
+                            tickFormatter={value =>
+                              value > 0 ? `${value / 1000}K` : 0
+                            }
+                          />
+                          <Tooltip />
 
-                      <LineChart
-                        width={1200}
-                        height={290}
-                        data={timelinesDataList}
-                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '13px',
-                            fontWeight: '450',
-                            lineHeight: '24px',
-                            fill: '#FF073A',
-                          }}
-                          tickLine={{stroke: '#FF073A', strokeWidth: 1}}
-                          axisLine={{stroke: '#FF073A', strokeWidth: 1}}
-                          tickMargin={10}
-                          tickSize={8}
-                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                        />
-                        <YAxis
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '13px',
-                            fontWeight: '450',
-                            lineHeight: '24px',
-                            fill: '#FF073A',
-                          }}
-                          tickLine={{stroke: '#FF073A', strokeWidth: 1}}
-                          axisLine={{stroke: '#FF073A', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={8}
-                          tickFormatter={value =>
-                            value > 0 ? `${value / 1000}K` : 0
-                          }
-                        />
-                        <Tooltip />
-
-                        <Line
-                          type="monotone"
-                          dataKey="confirmed"
-                          stroke="#FF073A"
-                          strokeWidth="2"
-                          dot={{
-                            stroke: ' #FF073A',
-                            strokeWidth: 1,
-                            fill: '#FF073A',
-                          }}
-                        />
-                      </LineChart>
+                          <Line
+                            type="monotone"
+                            dataKey="confirmed"
+                            stroke="#FF073A"
+                            strokeWidth="2"
+                            dot={{
+                              stroke: ' #FF073A',
+                              strokeWidth: 1,
+                              fill: '#FF073A',
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
                     </div>
                     <div
                       className="mini-confirmed-cases-line-chart-container"
@@ -628,58 +632,57 @@ class StateSpecific extends Component {
                       <h1 className="line-chart-confirmed-heading">
                         Confirmed
                       </h1>
+                      <ResponsiveContainer width="90%" height={250}>
+                        <LineChart
+                          data={timelinesDataList}
+                          margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                        >
+                          <XAxis
+                            dataKey="date"
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '8px',
+                              fontWeight: '450',
+                              lineHeight: '12px',
+                              fill: '#FF073A',
+                            }}
+                            tickLine={{stroke: '#FF073A', strokeWidth: 1}}
+                            axisLine={{stroke: '#FF073A', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={6}
+                            ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                          />
+                          <YAxis
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '8px',
+                              fontWeight: '450',
+                              lineHeight: '12px',
+                              fill: '#FF073A',
+                            }}
+                            tickLine={{stroke: '#FF073A', strokeWidth: 1}}
+                            axisLine={{stroke: '#FF073A', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={8}
+                            tickFormatter={value =>
+                              value > 0 ? `${value / 1000}K` : 0
+                            }
+                          />
+                          <Tooltip />
 
-                      <LineChart
-                        width={312}
-                        height={250}
-                        data={timelinesDataList}
-                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '8px',
-                            fontWeight: '450',
-                            lineHeight: '12px',
-                            fill: '#FF073A',
-                          }}
-                          tickLine={{stroke: '#FF073A', strokeWidth: 1}}
-                          axisLine={{stroke: '#FF073A', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={6}
-                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                        />
-                        <YAxis
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '8px',
-                            fontWeight: '450',
-                            lineHeight: '12px',
-                            fill: '#FF073A',
-                          }}
-                          tickLine={{stroke: '#FF073A', strokeWidth: 1}}
-                          axisLine={{stroke: '#FF073A', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={8}
-                          tickFormatter={value =>
-                            value > 0 ? `${value / 1000}K` : 0
-                          }
-                        />
-                        <Tooltip />
-
-                        <Line
-                          type="monotone"
-                          dataKey="confirmed"
-                          stroke="#FF073A"
-                          strokeWidth="1"
-                          dot={{
-                            stroke: ' #FF073A',
-                            strokeWidth: 0,
-                            fill: '#FF073A',
-                          }}
-                        />
-                      </LineChart>
+                          <Line
+                            type="monotone"
+                            dataKey="confirmed"
+                            stroke="#FF073A"
+                            strokeWidth="1"
+                            dot={{
+                              stroke: ' #FF073A',
+                              strokeWidth: 0,
+                              fill: '#FF073A',
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
                     </div>
                     <div
                       className="confirmed-cases-line-chart-container"
@@ -691,54 +694,54 @@ class StateSpecific extends Component {
                       >
                         Total Active
                       </h1>
-                      <LineChart
-                        width={1200}
-                        height={290}
-                        data={timelinesDataList}
-                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '13px',
-                            fontWeight: '450',
-                            lineHeight: '24px',
-                            fill: '#007BFF',
-                          }}
-                          tickLine={{stroke: '#007BFF', strokeWidth: 1}}
-                          axisLine={{stroke: '#007BFF', strokeWidth: 1}}
-                          tickMargin={10}
-                          tickSize={8}
-                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                        />
-                        <YAxis
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '13px',
-                            fontWeight: '450',
-                            lineHeight: '24px',
-                            fill: '#007BFF',
-                          }}
-                          tickLine={{stroke: '#007BFF', strokeWidth: 1}}
-                          axisLine={{stroke: '#007BFF', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={8}
-                        />
-                        <Tooltip />
+                      <ResponsiveContainer width="90%" height={290}>
+                        <LineChart
+                          data={timelinesDataList}
+                          margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                        >
+                          <XAxis
+                            dataKey="date"
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '13px',
+                              fontWeight: '450',
+                              lineHeight: '24px',
+                              fill: '#007BFF',
+                            }}
+                            tickLine={{stroke: '#007BFF', strokeWidth: 1}}
+                            axisLine={{stroke: '#007BFF', strokeWidth: 1}}
+                            tickMargin={10}
+                            tickSize={8}
+                            ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                          />
+                          <YAxis
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '13px',
+                              fontWeight: '450',
+                              lineHeight: '24px',
+                              fill: '#007BFF',
+                            }}
+                            tickLine={{stroke: '#007BFF', strokeWidth: 1}}
+                            axisLine={{stroke: '#007BFF', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={8}
+                          />
+                          <Tooltip />
 
-                        <Line
-                          type="monotone"
-                          dataKey="active"
-                          stroke="#007BFF"
-                          strokeWidth="2"
-                          dot={{
-                            stroke: ' #007BFF',
-                            strokeWidth: 1,
-                            fill: '#007BFF',
-                          }}
-                        />
-                      </LineChart>
+                          <Line
+                            type="monotone"
+                            dataKey="active"
+                            stroke="#007BFF"
+                            strokeWidth="2"
+                            dot={{
+                              stroke: ' #007BFF',
+                              strokeWidth: 1,
+                              fill: '#007BFF',
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
                     </div>
                     <div
                       className="mini-confirmed-cases-line-chart-container"
@@ -750,54 +753,54 @@ class StateSpecific extends Component {
                       >
                         Total Active
                       </h1>
-                      <LineChart
-                        width={312}
-                        height={250}
-                        data={timelinesDataList}
-                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '8px',
-                            fontWeight: '450',
-                            lineHeight: '12px',
-                            fill: '#007BFF',
-                          }}
-                          tickLine={{stroke: '#007BFF', strokeWidth: 1}}
-                          axisLine={{stroke: '#007BFF', strokeWidth: 1}}
-                          tickMargin={10}
-                          tickSize={8}
-                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                        />
-                        <YAxis
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '8px',
-                            fontWeight: '450',
-                            lineHeight: '12px',
-                            fill: '#007BFF',
-                          }}
-                          tickLine={{stroke: '#007BFF', strokeWidth: 1}}
-                          axisLine={{stroke: '#007BFF', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={8}
-                        />
-                        <Tooltip />
+                      <ResponsiveContainer width="90%" height={250}>
+                        <LineChart
+                          data={timelinesDataList}
+                          margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                        >
+                          <XAxis
+                            dataKey="date"
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '8px',
+                              fontWeight: '450',
+                              lineHeight: '12px',
+                              fill: '#007BFF',
+                            }}
+                            tickLine={{stroke: '#007BFF', strokeWidth: 1}}
+                            axisLine={{stroke: '#007BFF', strokeWidth: 1}}
+                            tickMargin={10}
+                            tickSize={8}
+                            ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                          />
+                          <YAxis
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '8px',
+                              fontWeight: '450',
+                              lineHeight: '12px',
+                              fill: '#007BFF',
+                            }}
+                            tickLine={{stroke: '#007BFF', strokeWidth: 1}}
+                            axisLine={{stroke: '#007BFF', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={8}
+                          />
+                          <Tooltip />
 
-                        <Line
-                          type="monotone"
-                          dataKey="active"
-                          stroke="#007BFF"
-                          strokeWidth="1"
-                          dot={{
-                            stroke: ' #007BFF',
-                            strokeWidth: 0,
-                            fill: '#007BFF',
-                          }}
-                        />
-                      </LineChart>
+                          <Line
+                            type="monotone"
+                            dataKey="active"
+                            stroke="#007BFF"
+                            strokeWidth="1"
+                            dot={{
+                              stroke: ' #007BFF',
+                              strokeWidth: 0,
+                              fill: '#007BFF',
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
                     </div>
                     <div
                       className="confirmed-cases-line-chart-container"
@@ -809,57 +812,57 @@ class StateSpecific extends Component {
                       >
                         Recovered
                       </h1>
-                      <LineChart
-                        width={1200}
-                        height={290}
-                        data={timelinesDataList}
-                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '13px',
-                            fontWeight: '450',
-                            lineHeight: '24px',
-                            fill: '#27A243',
-                          }}
-                          tickLine={{stroke: '#27A243', strokeWidth: 1}}
-                          axisLine={{stroke: '#27A243', strokeWidth: 1}}
-                          tickMargin={10}
-                          tickSize={8}
-                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                        />
-                        <YAxis
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '13px',
-                            fontWeight: '450',
-                            lineHeight: '24px',
-                            fill: '#27A243',
-                          }}
-                          tickLine={{stroke: '#27A243', strokeWidth: 1}}
-                          axisLine={{stroke: '#27A243', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={8}
-                          tickFormatter={value =>
-                            value > 0 ? `${value / 1000}K` : 0
-                          }
-                        />
-                        <Tooltip />
+                      <ResponsiveContainer width="90%" height={290}>
+                        <LineChart
+                          data={timelinesDataList}
+                          margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                        >
+                          <XAxis
+                            dataKey="date"
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '13px',
+                              fontWeight: '450',
+                              lineHeight: '24px',
+                              fill: '#27A243',
+                            }}
+                            tickLine={{stroke: '#27A243', strokeWidth: 1}}
+                            axisLine={{stroke: '#27A243', strokeWidth: 1}}
+                            tickMargin={10}
+                            tickSize={8}
+                            ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                          />
+                          <YAxis
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '13px',
+                              fontWeight: '450',
+                              lineHeight: '24px',
+                              fill: '#27A243',
+                            }}
+                            tickLine={{stroke: '#27A243', strokeWidth: 1}}
+                            axisLine={{stroke: '#27A243', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={8}
+                            tickFormatter={value =>
+                              value > 0 ? `${value / 1000}K` : 0
+                            }
+                          />
+                          <Tooltip />
 
-                        <Line
-                          type="monotone"
-                          dataKey="recovered"
-                          stroke="#27A243"
-                          strokeWidth="2"
-                          dot={{
-                            stroke: ' #27A243',
-                            strokeWidth: 1,
-                            fill: '#27A243',
-                          }}
-                        />
-                      </LineChart>
+                          <Line
+                            type="monotone"
+                            dataKey="recovered"
+                            stroke="#27A243"
+                            strokeWidth="2"
+                            dot={{
+                              stroke: ' #27A243',
+                              strokeWidth: 1,
+                              fill: '#27A243',
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
                     </div>
                     <div
                       className="mini-confirmed-cases-line-chart-container"
@@ -871,57 +874,57 @@ class StateSpecific extends Component {
                       >
                         Recovered
                       </h1>
-                      <LineChart
-                        width={312}
-                        height={250}
-                        data={timelinesDataList}
-                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '8px',
-                            fontWeight: '450',
-                            lineHeight: '12px',
-                            fill: '#27A243',
-                          }}
-                          tickLine={{stroke: '#27A243', strokeWidth: 1}}
-                          axisLine={{stroke: '#27A243', strokeWidth: 1}}
-                          tickMargin={10}
-                          tickSize={8}
-                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                        />
-                        <YAxis
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '8px',
-                            fontWeight: '450',
-                            lineHeight: '12px',
-                            fill: '#27A243',
-                          }}
-                          tickLine={{stroke: '#27A243', strokeWidth: 1}}
-                          axisLine={{stroke: '#27A243', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={8}
-                          tickFormatter={value =>
-                            value > 0 ? `${value / 1000}K` : 0
-                          }
-                        />
-                        <Tooltip />
+                      <ResponsiveContainer width="90%" height={250}>
+                        <LineChart
+                          data={timelinesDataList}
+                          margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                        >
+                          <XAxis
+                            dataKey="date"
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '8px',
+                              fontWeight: '450',
+                              lineHeight: '12px',
+                              fill: '#27A243',
+                            }}
+                            tickLine={{stroke: '#27A243', strokeWidth: 1}}
+                            axisLine={{stroke: '#27A243', strokeWidth: 1}}
+                            tickMargin={10}
+                            tickSize={8}
+                            ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                          />
+                          <YAxis
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '8px',
+                              fontWeight: '450',
+                              lineHeight: '12px',
+                              fill: '#27A243',
+                            }}
+                            tickLine={{stroke: '#27A243', strokeWidth: 1}}
+                            axisLine={{stroke: '#27A243', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={8}
+                            tickFormatter={value =>
+                              value > 0 ? `${value / 1000}K` : 0
+                            }
+                          />
+                          <Tooltip />
 
-                        <Line
-                          type="monotone"
-                          dataKey="recovered"
-                          stroke="#27A243"
-                          strokeWidth="1"
-                          dot={{
-                            stroke: ' #27A243',
-                            strokeWidth: 0,
-                            fill: '#27A243',
-                          }}
-                        />
-                      </LineChart>
+                          <Line
+                            type="monotone"
+                            dataKey="recovered"
+                            stroke="#27A243"
+                            strokeWidth="1"
+                            dot={{
+                              stroke: ' #27A243',
+                              strokeWidth: 0,
+                              fill: '#27A243',
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
                     </div>
                     <div
                       className="confirmed-cases-line-chart-container"
@@ -933,54 +936,54 @@ class StateSpecific extends Component {
                       >
                         Deceased
                       </h1>
-                      <LineChart
-                        width={1200}
-                        height={290}
-                        data={timelinesDataList}
-                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '13px',
-                            fontWeight: '450',
-                            lineHeight: '24px',
-                            fill: '#6C757D',
-                          }}
-                          tickLine={{stroke: '#6C757D', strokeWidth: 1}}
-                          axisLine={{stroke: '#6C757D', strokeWidth: 1}}
-                          tickMargin={10}
-                          tickSize={8}
-                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                        />
-                        <YAxis
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '13px',
-                            fontWeight: '450',
-                            lineHeight: '24px',
-                            fill: '#6C757D',
-                          }}
-                          tickLine={{stroke: '#6C757D', strokeWidth: 1}}
-                          axisLine={{stroke: '#6C757D', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={8}
-                        />
-                        <Tooltip />
+                      <ResponsiveContainer width="90%" height={290}>
+                        <LineChart
+                          data={timelinesDataList}
+                          margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                        >
+                          <XAxis
+                            dataKey="date"
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '13px',
+                              fontWeight: '450',
+                              lineHeight: '24px',
+                              fill: '#6C757D',
+                            }}
+                            tickLine={{stroke: '#6C757D', strokeWidth: 1}}
+                            axisLine={{stroke: '#6C757D', strokeWidth: 1}}
+                            tickMargin={10}
+                            tickSize={8}
+                            ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                          />
+                          <YAxis
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '13px',
+                              fontWeight: '450',
+                              lineHeight: '24px',
+                              fill: '#6C757D',
+                            }}
+                            tickLine={{stroke: '#6C757D', strokeWidth: 1}}
+                            axisLine={{stroke: '#6C757D', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={8}
+                          />
+                          <Tooltip />
 
-                        <Line
-                          type="monotone"
-                          dataKey="deceased"
-                          stroke="#6C757D"
-                          strokeWidth="2"
-                          dot={{
-                            stroke: ' #6C757D',
-                            strokeWidth: 1,
-                            fill: '#6C757D',
-                          }}
-                        />
-                      </LineChart>
+                          <Line
+                            type="monotone"
+                            dataKey="deceased"
+                            stroke="#6C757D"
+                            strokeWidth="2"
+                            dot={{
+                              stroke: ' #6C757D',
+                              strokeWidth: 1,
+                              fill: '#6C757D',
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
                     </div>
                     <div
                       className="mini-confirmed-cases-line-chart-container"
@@ -992,54 +995,54 @@ class StateSpecific extends Component {
                       >
                         Deceased
                       </h1>
-                      <LineChart
-                        width={312}
-                        height={250}
-                        data={timelinesDataList}
-                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '8px',
-                            fontWeight: '450',
-                            lineHeight: '12px',
-                            fill: '#6C757D',
-                          }}
-                          tickLine={{stroke: '#6C757D', strokeWidth: 1}}
-                          axisLine={{stroke: '#6C757D', strokeWidth: 1}}
-                          tickMargin={10}
-                          tickSize={8}
-                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                        />
-                        <YAxis
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '8px',
-                            fontWeight: '450',
-                            lineHeight: '12px',
-                            fill: '#6C757D',
-                          }}
-                          tickLine={{stroke: '#6C757D', strokeWidth: 1}}
-                          axisLine={{stroke: '#6C757D', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={8}
-                        />
-                        <Tooltip />
+                      <ResponsiveContainer width="90%" height={250}>
+                        <LineChart
+                          data={timelinesDataList}
+                          margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                        >
+                          <XAxis
+                            dataKey="date"
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '8px',
+                              fontWeight: '450',
+                              lineHeight: '12px',
+                              fill: '#6C757D',
+                            }}
+                            tickLine={{stroke: '#6C757D', strokeWidth: 1}}
+                            axisLine={{stroke: '#6C757D', strokeWidth: 1}}
+                            tickMargin={10}
+                            tickSize={8}
+                            ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                          />
+                          <YAxis
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '8px',
+                              fontWeight: '450',
+                              lineHeight: '12px',
+                              fill: '#6C757D',
+                            }}
+                            tickLine={{stroke: '#6C757D', strokeWidth: 1}}
+                            axisLine={{stroke: '#6C757D', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={8}
+                          />
+                          <Tooltip />
 
-                        <Line
-                          type="monotone"
-                          dataKey="deceased"
-                          stroke="#6C757D"
-                          strokeWidth="1"
-                          dot={{
-                            stroke: ' #6C757D',
-                            strokeWidth: 0,
-                            fill: '#6C757D',
-                          }}
-                        />
-                      </LineChart>
+                          <Line
+                            type="monotone"
+                            dataKey="deceased"
+                            stroke="#6C757D"
+                            strokeWidth="1"
+                            dot={{
+                              stroke: ' #6C757D',
+                              strokeWidth: 0,
+                              fill: '#6C757D',
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
                     </div>
                     <div
                       className="confirmed-cases-line-chart-container"
@@ -1051,57 +1054,57 @@ class StateSpecific extends Component {
                       >
                         Tested
                       </h1>
-                      <LineChart
-                        width={1200}
-                        height={290}
-                        data={timelinesDataList}
-                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '13px',
-                            fontWeight: '450',
-                            lineHeight: '24px',
-                            fill: '#9673B9',
-                          }}
-                          tickLine={{stroke: '#9673B9', strokeWidth: 1}}
-                          axisLine={{stroke: '#9673B9', strokeWidth: 1}}
-                          tickMargin={10}
-                          tickSize={8}
-                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                        />
-                        <YAxis
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '13px',
-                            fontWeight: '450',
-                            lineHeight: '24px',
-                            fill: '#9673B9',
-                          }}
-                          tickLine={{stroke: '#9673B9', strokeWidth: 1}}
-                          axisLine={{stroke: '#9673B9', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={8}
-                          tickFormatter={value =>
-                            value > 0 ? `${value / 100000}L` : 0
-                          }
-                        />
-                        <Tooltip />
+                      <ResponsiveContainer width="90%" height={290}>
+                        <LineChart
+                          data={timelinesDataList}
+                          margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                        >
+                          <XAxis
+                            dataKey="date"
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '13px',
+                              fontWeight: '450',
+                              lineHeight: '24px',
+                              fill: '#9673B9',
+                            }}
+                            tickLine={{stroke: '#9673B9', strokeWidth: 1}}
+                            axisLine={{stroke: '#9673B9', strokeWidth: 1}}
+                            tickMargin={10}
+                            tickSize={8}
+                            ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                          />
+                          <YAxis
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '13px',
+                              fontWeight: '450',
+                              lineHeight: '24px',
+                              fill: '#9673B9',
+                            }}
+                            tickLine={{stroke: '#9673B9', strokeWidth: 1}}
+                            axisLine={{stroke: '#9673B9', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={8}
+                            tickFormatter={value =>
+                              value > 0 ? `${value / 100000}L` : 0
+                            }
+                          />
+                          <Tooltip />
 
-                        <Line
-                          type="monotone"
-                          dataKey="tested"
-                          stroke="#9673B9"
-                          strokeWidth="2"
-                          dot={{
-                            stroke: ' #9673B9',
-                            strokeWidth: 1,
-                            fill: '#9673B9',
-                          }}
-                        />
-                      </LineChart>
+                          <Line
+                            type="monotone"
+                            dataKey="tested"
+                            stroke="#9673B9"
+                            strokeWidth="2"
+                            dot={{
+                              stroke: ' #9673B9',
+                              strokeWidth: 1,
+                              fill: '#9673B9',
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
                     </div>
                     <div
                       className="mini-confirmed-cases-line-chart-container"
@@ -1113,57 +1116,57 @@ class StateSpecific extends Component {
                       >
                         Tested
                       </h1>
-                      <LineChart
-                        width={312}
-                        height={250}
-                        data={timelinesDataList}
-                        margin={{top: 1, right: 20, left: 20, bottom: 15}}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '8px',
-                            fontWeight: '450',
-                            lineHeight: '12px',
-                            fill: '#9673B9',
-                          }}
-                          tickLine={{stroke: '#9673B9', strokeWidth: 1}}
-                          axisLine={{stroke: '#9673B9', strokeWidth: 1}}
-                          tickMargin={10}
-                          tickSize={8}
-                          ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
-                        />
-                        <YAxis
-                          tick={{
-                            fontFamily: 'Roboto',
-                            fontSize: '8px',
-                            fontWeight: '450',
-                            lineHeight: '12px',
-                            fill: '#9673B9',
-                          }}
-                          tickLine={{stroke: '#9673B9', strokeWidth: 1}}
-                          axisLine={{stroke: '#9673B9', strokeWidth: 1}}
-                          tickMargin={8}
-                          tickSize={8}
-                          tickFormatter={value =>
-                            value > 0 ? `${value / 100000}L` : 0
-                          }
-                        />
-                        <Tooltip />
+                      <ResponsiveContainer width="90%" height={250}>
+                        <LineChart
+                          data={timelinesDataList}
+                          margin={{top: 1, right: 20, left: 20, bottom: 15}}
+                        >
+                          <XAxis
+                            dataKey="date"
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '8px',
+                              fontWeight: '450',
+                              lineHeight: '12px',
+                              fill: '#9673B9',
+                            }}
+                            tickLine={{stroke: '#9673B9', strokeWidth: 1}}
+                            axisLine={{stroke: '#9673B9', strokeWidth: 1}}
+                            tickMargin={10}
+                            tickSize={8}
+                            ticks={['2021-07-19', '2021-08-05', '2021-08-28']}
+                          />
+                          <YAxis
+                            tick={{
+                              fontFamily: 'Roboto',
+                              fontSize: '8px',
+                              fontWeight: '450',
+                              lineHeight: '12px',
+                              fill: '#9673B9',
+                            }}
+                            tickLine={{stroke: '#9673B9', strokeWidth: 1}}
+                            axisLine={{stroke: '#9673B9', strokeWidth: 1}}
+                            tickMargin={8}
+                            tickSize={8}
+                            tickFormatter={value =>
+                              value > 0 ? `${value / 100000}L` : 0
+                            }
+                          />
+                          <Tooltip />
 
-                        <Line
-                          type="monotone"
-                          dataKey="tested"
-                          stroke="#9673B9"
-                          strokeWidth="1"
-                          dot={{
-                            stroke: ' #9673B9',
-                            strokeWidth: 0,
-                            fill: '#9673B9',
-                          }}
-                        />
-                      </LineChart>
+                          <Line
+                            type="monotone"
+                            dataKey="tested"
+                            stroke="#9673B9"
+                            strokeWidth="1"
+                            dot={{
+                              stroke: ' #9673B9',
+                              strokeWidth: 0,
+                              fill: '#9673B9',
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
                 )}
@@ -1181,8 +1184,8 @@ class StateSpecific extends Component {
           )}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default StateSpecific
+export default StateSpecific;

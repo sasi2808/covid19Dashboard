@@ -1,10 +1,10 @@
-import './index.css'
+import './index.css';
 
 const NotFound = props => {
-  const {history} = props
+  const {history} = props;
   const onClickingHomeButton = () => {
-    history.push('/')
-  }
+    history.push('/');
+  };
 
   return (
     <div className="not-found-container">
@@ -25,6 +25,6 @@ const NotFound = props => {
         Home
       </button>
     </div>
-  )
-}
-export default NotFound
+  );
+};
+export default NotFound;

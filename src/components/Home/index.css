@@ -23,6 +23,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  opacity: 1;
 }
 @media screen and (max-width: 768px) {
   .search-container {
@@ -107,8 +108,9 @@
   padding: 4px 6px 4px 6px;
   gap: 0px;
   border-radius: 4px;
-  opacity: 0px;
+  opacity: 1;
 }
+
 .state-code {
   //styleName: Text Font / S1 Subtitle;
   font-family: HK Grotesk;
@@ -124,7 +126,7 @@
   width: 24px;
   height: 24px;
   gap: 0px;
-  opacity: 0px;
+  opacity: 1;
 }
 .cases-details-container {
   width: 68%;
@@ -169,7 +171,7 @@
   top: 376px;
   left: 267px;
   gap: 0px;
-  opacity: 0px;
+  opacity: 1;
 }
 .confirmed-cases-count {
   font-family: Roboto;
@@ -204,7 +206,7 @@
   top: 376px;
   left: 561px;
   gap: 0px;
-  opacity: 0px;
+  opacity: 1;
 }
 .active-cases-count {
   font-family: Roboto;
@@ -239,7 +241,7 @@
   top: 376px;
   left: 855px;
   gap: 0px;
-  opacity: 0px;
+  opacity: 1;
 }
 .recovered-cases-count {
   font-family: Roboto;
@@ -274,7 +276,7 @@
   top: 376px;
   left: 1149px;
   gap: 0px;
-  opacity: 0px;
+  opacity: 1;
 }
 .deceased-cases-count {
   font-family: Roboto;
@@ -288,6 +290,7 @@
 .scrollable-container {
   width: 77%;
   margin-top: 100px;
+  overflow-x: auto;
 }
 @media screen and (max-width: 768px) {
   .scrollable-container {
@@ -300,6 +303,7 @@
   border: 1px solid #475569;
   border-radius: 5px;
   padding: 0%;
+  width: 1175px;
 }
 
 @media screen and (max-width: 768px) {
